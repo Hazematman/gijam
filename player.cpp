@@ -4,8 +4,9 @@ Player::Player(){
 	this->rb = RigidBody(0,0,0,0);
 }
 
-Player::Player(sf::Sprite, float x, float y){
-	this->sprite = sprite;
+Player::Player(sf::Texture texture, float x, float y){
+	sprite.setTexture(texture);
+	this->texture = texture;
 	sf::Vector2u spriteSize = sprite.getTexture()->getSize();
 	this->rb = RigidBody(x,y,spriteSize.x,spriteSize.y);
 }

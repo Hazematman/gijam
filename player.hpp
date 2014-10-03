@@ -7,8 +7,9 @@ class Player {
 public:
 	RigidBody rb;
 	sf::Sprite sprite;
+	sf::Texture texture;
 	Player();
-	Player(sf::Sprite, float x, float y);
+	Player(sf::Texture, float x, float y);
 	void render();
 	void update(float dt);
 };

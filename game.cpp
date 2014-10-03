@@ -5,6 +5,9 @@ using namespace std;
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
 	//TDOO get player image here
+	sf::Texture tex;
+	tex.loadFromFile("data/images/Marisa_Stand_01.png");
+	p = Player(tex, 0, 0);
 	
 	world.bodies.push_back(&p.rb);
 	return true;
@@ -21,7 +24,11 @@ int Game::run(){
 			if(e.type == sf::Event::Closed){
 				screen.close();
 			} else if (e.type == sf::Event::KeyPressed){
-				cout << e.key.code << endl;
+				if (e.key.code == sf::Keyboard::Left) {
+					p.rb.vel = sf::Vector2f(-1.,0.);
+				} else if (e.key.code == sf::Keyboard::Right) { 
+					p.rb.vel = sf::Vector2f(+1.,0.);
+				};
 			}
 		}
 
