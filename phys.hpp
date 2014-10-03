@@ -15,6 +15,7 @@ class RigidBody {
 class PhysWorld {
 	public:
 		std::vector<RigidBody*> bodies;
+		sf::Vector2f gravity;
 		void update(float dt);
 };
 
