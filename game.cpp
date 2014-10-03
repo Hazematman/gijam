@@ -6,7 +6,7 @@ bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
 	//TDOO get player image here
 	sf::Texture tex;
-	tex.loadFromFile("./data/images/Marisa_Stand_01.png");
+	cout << tex.loadFromFile("./data/images/Marisa_Stand_01.png");
 	p = Player(tex, 0, 0);
 	
 	world.bodies.push_back(&p.rb);
@@ -34,8 +34,8 @@ int Game::run(){
 
 		screen.clear(sf::Color::Black);
 		update(dt);
-		screen.display();
 		render();
+		screen.display();
 		dt = dtTimer.restart().asSeconds();
 	}
 	return EXIT_SUCCESS;
