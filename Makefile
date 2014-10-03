@@ -14,9 +14,9 @@ RCOMPILE_FLAGS = -D NDEBUG
 # Additional debug-specific flags
 DCOMPILE_FLAGS = -D DEBUG
 # Add additional include paths
-INCLUDES = -I $(SRC_PATH)/
+INCLUDES = -I $(SRC_PATH)/ -I"../SFML/include"
 # General linker settings
-LINK_FLAGS = -lsfml-system -lsfml-window -lsfml-graphics 
+LINK_FLAGS = -lsfml-system -lsfml-window -lsfml-graphics -L"../SFML/lib"
 # Additional release-specific linker settings
 RLINK_FLAGS = 
 # Additional debug-specific linker settings
