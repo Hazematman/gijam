@@ -4,6 +4,9 @@ using namespace std;
 
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
+	//TDOO get player image here
+	
+	world.bodies.push_back(&p.rb);
 	return true;
 }
 
