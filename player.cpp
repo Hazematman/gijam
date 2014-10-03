@@ -14,5 +14,6 @@ Player::Player(sf::Texture texture, float x, float y){
 void Player::update(float dt){
 }
 
-void Player::render(){
+void Player::render(sf::RenderWindow &screen){
+	screen.draw(this->sprite);
 }

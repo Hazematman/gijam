@@ -12,7 +12,7 @@ class Game {
 	public:
 		bool init();
 		int run();
-		void  update(float dt);
+		void update(float dt);
 		void render();
 };
 

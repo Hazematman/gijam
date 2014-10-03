@@ -10,7 +10,7 @@ public:
 	sf::Texture texture;
 	Player();
 	Player(sf::Texture, float x, float y);
-	void render();
+	void render(sf::RenderWindow &screen);
 	void update(float dt);
 };
 #endif

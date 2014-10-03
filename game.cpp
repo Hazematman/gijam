@@ -6,7 +6,7 @@ bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
 	//TDOO get player image here
 	sf::Texture tex;
-	tex.loadFromFile("data/images/Marisa_Stand_01.png");
+	tex.loadFromFile("./data/images/Marisa_Stand_01.png");
 	p = Player(tex, 0, 0);
 	
 	world.bodies.push_back(&p.rb);
@@ -45,4 +45,5 @@ void Game::update(float dt){
 }
 
 void Game::render(){
+	p.render(screen);
 }
