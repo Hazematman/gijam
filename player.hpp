@@ -1,5 +1,6 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
+#include <iostream>
 #include "SFML/System.hpp"
 #include "phys.hpp"
 
@@ -9,7 +10,7 @@ public:
 	sf::Sprite sprite;
 	sf::Texture texture;
 	Player();
-	Player(sf::Texture, float x, float y);
+	void setSprite(std::string filename);
 	void render(sf::RenderWindow &screen);
 	void update(float dt);
 };

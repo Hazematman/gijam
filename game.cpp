@@ -4,11 +4,7 @@ using namespace std;
 
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
-	//TDOO get player image here
-	sf::Texture tex;
-	cout << tex.loadFromFile("./data/images/Marisa_Stand_01.png");
-	p = Player(tex, 0, 0);
-	
+	p.setSprite("./data/images/Marisa_Stand_01.png");	
 	world.bodies.push_back(&p.rb);
 	return true;
 }
