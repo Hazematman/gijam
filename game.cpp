@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include <iostream>
 using namespace std;
 
 bool Game::init(){
@@ -16,6 +17,8 @@ int Game::run(){
 		while(screen.pollEvent(e)){
 			if(e.type == sf::Event::Closed){
 				screen.close();
+			} else if (e.type == sf::Event::KeyPressed){
+				cout << e.key.code << endl;
 			}
 		}
 

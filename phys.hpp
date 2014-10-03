@@ -10,6 +10,7 @@ class RigidBody {
 		sf::Vector2f pos;
 		bool moves;
 		RigidBody(float x, float y, float dx, float dy);
+		RigidBody();
 };
 
 class PhysWorld {
