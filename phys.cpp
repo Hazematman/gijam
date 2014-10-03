@@ -13,6 +13,15 @@ RigidBody::RigidBody(){
 
 void PhysWorld::update(float dt){
 	for(RigidBody* body : bodies){
-		body->pos += body->vel*dt;
+		if(body->moves){
+			body->pos += (body->vel + gravity*dt)*dt;
+		}
+	}
+	for(RigidBody* b1 : bodies){
+		for(RigidBody* b2 : bodies){
+			if(b1 != b2 && b1->body.intersects(b2->body)){
+				b1->pos += b1->vel*-dt;
+			}
+		}
 	}
 }
