@@ -4,6 +4,8 @@ using namespace std;
 
 Player::Player(){
 	this->rb = RigidBody(0,0,0,0);
+	this->isMovingLeft = false;
+	this->isMovingRight = false;
 }
 
 void Player::setSprite(string filename){
