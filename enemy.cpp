@@ -19,8 +19,9 @@ Enemy::Enemy(){
 void Enemy::update(float dt){
 	// Try to move towards the player, if we are too far
 	if (abs(gplayer->pos.x - this->pos.x) >= 60) {
+		cout << "trying to move" << endl;
 		if (gplayer->pos.x < this->pos.x) {
-			if (!isMovingLeft) {
+			if (!isMovingLeft || vel.x == 0) {
 				isMovingLeft = true;
 				vel += sf::Vector2f(-speed,0.);
 			}
@@ -30,7 +31,7 @@ void Enemy::update(float dt){
 				vel -= sf::Vector2f(-speed,0.);
 		}
 		if (gplayer->pos.x > this->pos.x) {
-			if (!isMovingRight) {
+			if (!isMovingRight || vel.x == 0) {
 				isMovingRight = true;
 				vel += sf::Vector2f(+speed,0.);
 			}
@@ -47,6 +48,17 @@ void Enemy::update(float dt){
 			sprite.setScale(+2,2);
 		}
 	} else if (this->attackCd <= 0) {
+		// Cancerl current movement
+		if (isMovingLeft) {
+			isMovingLeft = false;
+			if(vel.x != 0)
+				vel -= sf::Vector2f(-speed,0.);
+		}
+		if (isMovingRight) {
+			isMovingRight = false;
+			if(vel.x != 0)
+				vel -= sf::Vector2f(+speed,0.);
+		}
 		// We are in attacking range
 		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD, this->facingLeft, false)));
 		AttackStab *newstab = ((AttackStab*) this->aliveAttacks.back().get());
