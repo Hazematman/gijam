@@ -6,10 +6,10 @@
 class AttackStab : public Attack {
 public:
 	AttackStab();
-	AttackStab(int Damage, int lifetime, bool facingLeft);
+	AttackStab(int Damage, float lifetime, bool facingLeft);
 	bool facingLeft;
 	int damage;
-	int lifetime;
+	float lifetime;
 	void update(float dt);
 };
 

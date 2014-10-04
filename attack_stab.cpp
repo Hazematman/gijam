@@ -7,24 +7,23 @@ AttackStab::AttackStab() {
 	this->tag = "attack";
 	this->sprite.setScale(2,2);
 	this->facingLeft = false;
+	this->moves = false;
 }
 
-AttackStab::AttackStab(int damage, int lifetime, bool facingLeft) {
+AttackStab::AttackStab(int damage, float lifetime, bool facingLeft) {
 	this->damage = damage;
 	this->lifetime = lifetime;
 	this->tag = "attack";
 	this->sprite.setScale((facingLeft ? -2 : 2),2);
 	this->facingLeft = facingLeft;
+	this->moves = false;
 }
 
 void AttackStab::update(float dt) {
-	cout << "update" << endl;
 	if (!this->dead) {
 		for (RigidBody* collidedRB : this->collided) {
 			Entity* collidedEnt = (Entity*) collidedRB;
-			if (collidedEnt->tag != "player" && collidedEnt->onHit(damage)) {
-				this->dead = true;
-			};
+			collidedEnt->tag != "player" && collidedEnt->onHit(damage);
 		}
 	}
 	this->lifetime -= dt;
