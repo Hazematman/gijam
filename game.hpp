@@ -13,14 +13,15 @@ class Game {
 		sf::RenderWindow screen;
 		PhysWorld world;
 		Player p;
-		Enemy e;
 		std::vector<std::unique_ptr<Platform>> plats;
+		std::vector<std::unique_ptr<Enemy>> enemies;
 	public:
 		bool init();
 		int run();
 		void update(float dt);
 		void render();
 		void addPlatform(int x, int y);
+		void addEnemy(int x, int y);
 };
 
 #endif

@@ -34,10 +34,11 @@ void Player::update(float dt){
 		}
 	} else if (isMovingLeft) {
 		isMovingLeft = false;
-		if(vel.x != 0)
+		if(vel.x != 0) {
 			vel -= sf::Vector2f(-speed,0.);
-		if(currentAnim == KWALK)
-			vel -= sf::Vector2f(-UPSPEED, 0);
+			if(currentAnim == KWALK)
+				vel -= sf::Vector2f(-UPSPEED, 0);
+		}
 		currentAnim = IDLE;
 		currentFrame = 0;
 	}
@@ -50,10 +51,11 @@ void Player::update(float dt){
 		}
 	} else if (isMovingRight) {
 		isMovingRight = false;
-		if(vel.x != 0)
+		if(vel.x != 0) {
 			vel -= sf::Vector2f(+speed,0.);
-		if(currentAnim == KWALK)
-			vel -= sf::Vector2f(UPSPEED,0);
+			if(currentAnim == KWALK)
+				vel -= sf::Vector2f(UPSPEED,0);
+		}
 		currentAnim = IDLE;
 		currentFrame = 0;
 	}
