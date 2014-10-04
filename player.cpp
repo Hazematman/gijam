@@ -5,6 +5,7 @@ using namespace std;
 Player::Player(){
 	this->speed = 40;
 	this->rb.pos = sf::Vector2f(0,200);
+	this->rb.tag = "player";
 	this->isMovingLeft = false;
 	this->isMovingRight = false;
 }
