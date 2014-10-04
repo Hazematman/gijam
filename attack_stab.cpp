@@ -23,6 +23,10 @@ AttackStab::AttackStab(int damage, float lifetime, bool facingLeft, bool fromPla
 	this->moves = false;
 	this->timeToNextFrame = STAB_FRAME_LENGTH;
 	this->fromPlayer = fromPlayer;
+	if(!fromPlayer){
+		this->framePos = 5;
+		this->timeToNextFrame = 0.3;
+	}
 }
 
 void AttackStab::update(float dt) {

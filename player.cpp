@@ -9,7 +9,7 @@ using namespace std;
 #define UPSPEED 30
 
 Player::Player(){
-	this->speed = 30;
+	this->speed = 50;
 	this->pos = sf::Vector2f(0,200);
 	this->tag = "player";
 	this->body = sf::Rect<float> (0,200,32,64);

@@ -93,10 +93,14 @@ void Enemy::render(sf::RenderWindow &screen){
 		}
 		screen.draw(this->sprite);
 		for (int i = 0; i < this->aliveAttacks.size(); i++) {
+			sf::RectangleShape s;
+			s.setSize(sf::Vector2f(64,64));
 			Attack* thisAttack = aliveAttacks.at(i).get();
-			thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
-			thisAttack->body.left = this->body.left + (this->facingLeft ? 35 : -4);
+			thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(28,-4) : sf::Vector2f(36,-4));
+			thisAttack->body.left = this->body.left + (this->facingLeft ? -28 : 36);
 			thisAttack->body.top = this->body.top - 4;
+			s.setPosition(thisAttack->body.left, thisAttack->body.top);
+			//screen.draw(s);
 			thisAttack->render(screen);
 		}
 	}
@@ -108,7 +112,7 @@ bool Enemy::onHit(int damage){
 		Attack* thisAttack = aliveAttacks.at(i).get();
 		thisAttack->dead = true;
 		gworld->removeBody(thisAttack);
-		gworld->removeBody(this);
 	}
+	gworld->removeBody(this);
 	return true;
 };

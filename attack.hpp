@@ -7,6 +7,7 @@ class Attack : public Entity {
 public:
 	Attack();
 	int frameNum;
+	int framePos;
 	void render(sf::RenderWindow &screen);
 	virtual void update(float dt){std::cout << "virt" << std::endl;};
 };

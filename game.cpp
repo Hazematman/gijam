@@ -8,7 +8,7 @@ bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
 	this->addPlatform(10,300);
 	this->addPlatform(100,300);
-	this->addEnemy(100,200);
+	this->addEnemy(120,100);
 	p.setSprite("./data/images/charsheet.png");
 	world.bodies.push_back(&p);
 	world.gravity = sf::Vector2f(0,GRAVITY);
