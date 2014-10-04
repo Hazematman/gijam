@@ -41,7 +41,7 @@ void Player::update(float dt){
 	} else {
 		this->jumpPowerLeft = 0;
 	}
-	if (rb.vel.y == 0 && rb.collided.size() > 0) {
+	if (vel.y == 0 && collided.size() > 0) {
 		this->jumpPowerLeft = MAX_JUMP;
 	}
 }
