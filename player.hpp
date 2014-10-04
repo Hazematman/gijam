@@ -12,11 +12,19 @@
 #define MAX_JUMP 1
 #define STAB_CD 0.8
 
+enum Anims {
+	IDLE,
+	WALK,
+	KWALK,
+};
+
 class Player : public Entity {
 public:
 	float speed;
 	bool isMovingLeft, isMovingRight;
 	bool facingLeft;
+	float currentFrame;
+	int currentAnim;
 	float jumpPowerLeft;
 	float attackCd;
 	std::vector<std::unique_ptr<Attack>> aliveAttacks;
