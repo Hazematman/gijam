@@ -3,7 +3,7 @@
 using namespace std;
 
 Player::Player(){
-	this->speed = 40;
+	this->speed = 50;
 	this->rb.pos = sf::Vector2f(0,200);
 	this->rb.tag = "player";
 	this->isMovingLeft = false;
@@ -27,7 +27,7 @@ void Player::update(float dt){
 			isMovingRight = true;
 			rb.vel += sf::Vector2f(+speed,0.);
 		}
-	} else if (isMovingRight && rb.vel.x != 0) {
+	} else if (isMovingRight) {
 		isMovingRight = false;
 		if(rb.vel.x != 0)
 			rb.vel -= sf::Vector2f(+speed,0.);
@@ -35,12 +35,12 @@ void Player::update(float dt){
 
 	// Vertical Movement
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && this->jumpPowerLeft > 0) {
-		rb.vel = sf::Vector2f(0.,-40000*this->jumpPowerLeft/MAX_JUMP*dt);
-		this->jumpPowerLeft -= dt;
+		rb.vel += sf::Vector2f(0.,-GRAVITY*this->jumpPowerLeft/MAX_JUMP*dt*30);
+		this->jumpPowerLeft -= dt*10;
 	} else {
 		this->jumpPowerLeft = 0;
 	}
-	if (abs(rb.vel.y) <= 0.01 && rb.collided.size() > 0) {
+	if (rb.vel.y == 0 && rb.collided.size() > 0) {
 		this->jumpPowerLeft = MAX_JUMP;
 	}
 }

@@ -3,6 +3,8 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
+#define GRAVITY 70
+
 class RigidBody {
 	public:
 		std::string tag;
