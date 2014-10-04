@@ -93,6 +93,8 @@ bool Enemy::onHit(int damage){
 	for (int i = 0; i < this->aliveAttacks.size(); i++) {
 		Attack* thisAttack = aliveAttacks.at(i).get();
 		thisAttack->dead = true;
+		gworld->removeBody(thisAttack);
+		gworld->removeBody(this);
 	}
 	return true;
 };
