@@ -4,6 +4,9 @@
 
 class AttackStab : public Attack {
 public:
+	AttackStab();
+	AttackStab(Damage);
+	int damage;
 	void update(float dt);
 };
 
