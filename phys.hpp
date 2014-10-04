@@ -23,6 +23,7 @@ class PhysWorld {
 		std::vector<RigidBody*> bodies;
 		sf::Vector2f gravity;
 		void update(float dt);
+		void removeBody(RigidBody* body);
 
 };
 

@@ -80,7 +80,6 @@ void Player::update(float dt){
 
 	// Attacks
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && this->attackCd <= 0) {
-		cout << "Attack" << endl;
 		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD, this->facingLeft, true)));
 		AttackStab *newstab = ((AttackStab*) this->aliveAttacks.back().get());
 		//newstab->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
@@ -96,6 +95,7 @@ void Player::update(float dt){
 		Attack *thisAttack = aliveAttacks.at(i).get();
 		if (thisAttack->dead) {
 			this->aliveAttacks.erase(this->aliveAttacks.begin() + i);
+			gworld->removeBody(thisAttack);
 			i--;
 			continue;
 		}
@@ -136,6 +136,5 @@ void Player::render(sf::RenderWindow &screen){
 }
 
 bool Player::onHit(int damage){
-	cout << "Self hit" << endl;
 	return true;
 }

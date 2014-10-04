@@ -42,6 +42,5 @@ void AttackStab::update(float dt) {
 	this->lifetime -= dt;
 	if (this->lifetime <= 0) {
 		this->dead = true;
-		cout << "ded" << endl;
 	}
 }

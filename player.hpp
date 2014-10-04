@@ -27,6 +27,7 @@ public:
 	int currentAnim;
 	float jumpPowerLeft;
 	float attackCd;
+	int HP;
 	std::vector<std::unique_ptr<Attack>> aliveAttacks;
 	Player();
 	void render(sf::RenderWindow &screen);

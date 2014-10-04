@@ -46,6 +46,7 @@ void Game::update(float dt){
 		if (enemy->dead) {
 			this->enemies.erase(this->enemies.begin() + i);
 			i--;
+			gworld->removeBody(enemy);
 			continue;
 		}
 		enemy->update(dt);

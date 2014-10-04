@@ -55,3 +55,13 @@ void PhysWorld::update(float dt){
 		}
 	}
 }
+
+void PhysWorld::removeBody(RigidBody* body) {
+	for(int i = 0; i < bodies.size(); i++){
+		if (body == bodies.at(i)) {
+			bodies.erase(bodies.begin() + i);
+			i==0 ? i=0: i--;
+			continue;
+		}
+	}
+}
