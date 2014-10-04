@@ -57,7 +57,7 @@ void Player::update(float dt){
 		cout << "Attack" << endl;
 		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10,200, this->facingLeft)));
 		AttackStab *newstab = ((AttackStab*) this->aliveAttacks.back().get());
-		newstab->pos = this->pos + (this->facingLeft ? sf::Vector2f(28,4) : sf::Vector2f(4,4));
+		newstab->pos = this->pos + (this->facingLeft ? sf::Vector2f(24,0) : sf::Vector2f(4,0));
 		newstab->tag = "attack";
 		newstab->body = sf::Rect<float> (0,200,32,32);
 		newstab->setSprite("./data/images/attacksheet.png");
