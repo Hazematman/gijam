@@ -79,11 +79,11 @@ void Player::update(float dt){
 	// Attacks
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && this->attackCd <= 0) {
 		cout << "Attack" << endl;
-		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10,STAB_CD, this->facingLeft)));
+		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD, this->facingLeft, true)));
 		AttackStab *newstab = ((AttackStab*) this->aliveAttacks.back().get());
 		//newstab->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
 		newstab->tag = "attack";
-		newstab->body = sf::Rect<float> (0,200,32,32);
+		newstab->body = sf::Rect<float> (0,200,64,64);
 		newstab->setSprite("./data/images/attacksheet.png");
 		gworld->bodies.push_back(newstab);
 		this->attackCd = STAB_CD;
@@ -127,6 +127,13 @@ void Player::render(sf::RenderWindow &screen){
 	for (int i = 0; i < this->aliveAttacks.size(); i++) {
 		Attack* thisAttack = aliveAttacks.at(i).get();
 		thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
+		thisAttack->body.left = this->body.left + (this->facingLeft ? 35 : -4);
+		thisAttack->body.top = this->body.top - 4;
 		thisAttack->render(screen);
 	}
+}
+
+bool Player::onHit(int damage){
+	cout << "Self hit" << endl;
+	return true;
 }
