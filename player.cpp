@@ -6,6 +6,7 @@ Player::Player(){
 	this->speed = 50;
 	this->pos = sf::Vector2f(0,200);
 	this->tag = "player";
+	this->body = sf::Rect<float> (0,200,16,32);
 	this->isMovingLeft = false;
 	this->isMovingRight = false;
 }
@@ -41,7 +42,7 @@ void Player::update(float dt){
 	} else {
 		this->jumpPowerLeft = 0;
 	}
-	if (rb.vel.y == 0 && rb.collided.size() > 0) {
+	if (vel.y == 0 && collided.size() > 0) {
 		this->jumpPowerLeft = MAX_JUMP;
 	}
 }

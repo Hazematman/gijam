@@ -5,9 +5,9 @@ using namespace std;
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
 	plat.setSprite("./data/images/DownArrow.png");
-	p.setSprite("./data/images/Marisa_Stand_01.png");
 	world.bodies.push_back(&p);
 	world.bodies.push_back(&plat);
+	p.setSprite("./data/images/charsheet.png");
 	world.gravity = sf::Vector2f(0,GRAVITY);
 	return true;
 }
