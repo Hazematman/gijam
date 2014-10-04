@@ -12,6 +12,6 @@ void Entity::setSprite(string filename){
 	sf::Vector2u spriteSize = sprite.getTexture()->getSize();
 	this->body.left = pos.x;
 	this->body.top = pos.y;
-	this->body.width = spriteSize.x;
-	this->body.height = spriteSize.y;
+	this->body.width =  body.width==0 ? spriteSize.x : body.width;
+	this->body.height = body.height==0 ? spriteSize.y : body.height;
 }

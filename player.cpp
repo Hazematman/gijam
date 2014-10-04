@@ -6,6 +6,7 @@ Player::Player(){
 	this->speed = 50;
 	this->pos = sf::Vector2f(0,200);
 	this->tag = "player";
+	this->body = sf::Rect<float> (0,200,16,32);
 	this->isMovingLeft = false;
 	this->isMovingRight = false;
 }
