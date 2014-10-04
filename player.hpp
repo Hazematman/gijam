@@ -11,6 +11,7 @@
 
 #define MAX_JUMP 1
 #define STAB_CD 0.8
+#define MAX_WALK_SPEED 60
 
 enum Anims {
 	IDLE,

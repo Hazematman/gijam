@@ -3,7 +3,8 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-#define GRAVITY 70
+#define GRAVITY 140
+#define DRAG 0.9
 
 class RigidBody {
 	public:

@@ -16,6 +16,7 @@ void PhysWorld::update(float dt){
 	for(RigidBody* body : bodies){
 		if(body->moves){
 			body->vel += gravity*dt;
+			body->vel.x *= DRAG;
 			body->pos += body->vel*dt;
 			body->body.left = body->pos.x;
 			body->body.top = body->pos.y;

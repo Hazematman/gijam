@@ -2,7 +2,7 @@
 using namespace std;
 
 Enemy::Enemy(){
-	this->speed = 50;
+	this->speed = 30;
 	this->pos = sf::Vector2f(200,200);
 	this->tag = "enemy";
 	this->body = sf::Rect<float> (0,200,64,64);
@@ -21,24 +21,18 @@ void Enemy::update(float dt){
 	if (abs(gplayer->pos.x - this->pos.x) >= 60) {
 		cout << "trying to move" << endl;
 		if (gplayer->pos.x < this->pos.x) {
-			if (!isMovingLeft || vel.x == 0) {
-				isMovingLeft = true;
-				vel += sf::Vector2f(-speed,0.);
-			}
+			isMovingLeft = true;
+			vel += sf::Vector2f(-speed,0.);
 		} else if (isMovingLeft) {
 			isMovingLeft = false;
-			if(vel.x != 0)
-				vel -= sf::Vector2f(-speed,0.);
+			vel -= sf::Vector2f(-speed,0.);
 		}
 		if (gplayer->pos.x > this->pos.x) {
-			if (!isMovingRight || vel.x == 0) {
-				isMovingRight = true;
-				vel += sf::Vector2f(+speed,0.);
-			}
+			isMovingRight = true;
+			vel += sf::Vector2f(+speed,0.);
 		} else if (isMovingRight) {
 			isMovingRight = false;
-			if(vel.x != 0)
-				vel -= sf::Vector2f(+speed,0.);
+			vel -= sf::Vector2f(+speed,0.);
 		}
 		if (this->attackCd <= 0 && isMovingLeft) {
 			facingLeft = true;
