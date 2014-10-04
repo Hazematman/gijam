@@ -3,15 +3,12 @@
 #include <iostream>
 #include "SFML/System.hpp"
 #include "phys.hpp"
+#include "entity.hpp"
 
-class Player {
+class Player : public Entity {
 public:
-	RigidBody rb;
-	sf::Sprite sprite;
-	sf::Texture texture;
 	bool isMovingLeft, isMovingRight;
 	Player();
-	void setSprite(std::string filename);
 	void render(sf::RenderWindow &screen);
 	void update(float dt);
 };

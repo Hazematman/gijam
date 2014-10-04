@@ -3,15 +3,11 @@
 #include <iostream>
 #include "SFML/System.hpp"
 #include "phys.hpp"
+#include "entity.hpp"
 
-class Platform {
+class Platform : public Entity {
 public:
-	RigidBody rb;
-	sf::Sprite sprite;
-	sf::Texture texture;
 	Platform();
-	//void setPos(float x, float y);
-	void setSprite(std::string filename);
 	void render(sf::RenderWindow &screen);
 	void update(float dt);
 };
