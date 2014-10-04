@@ -14,7 +14,8 @@ RigidBody::RigidBody(){
 void PhysWorld::update(float dt){
 	for(RigidBody* body : bodies){
 		if(body->moves){
-			body->pos += (body->vel + gravity*dt)*dt;
+			body->vel += gravity*dt;
+			body->pos += body->vel*dt;
 		}
 	}
 	for(RigidBody* b1 : bodies){
