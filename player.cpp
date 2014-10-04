@@ -79,6 +79,11 @@ void Player::update(float dt){
 		this->jumpPowerLeft = 0;
 	}
 	if (vel.y == 0 && collided.size() > 0) {
+		for (int i = 0; i < collided.size(); i++) {
+			Entity* collidedEnt = (Entity*) collided.at(i);
+			if (collidedEnt->moves)
+				collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? 30 : -30);
+		}
 		this->jumpPowerLeft = MAX_JUMP;
 	}
 
@@ -134,9 +139,14 @@ void Player::render(sf::RenderWindow &screen){
 		for (int i = 0; i < this->aliveAttacks.size(); i++) {
 			Attack* thisAttack = aliveAttacks.at(i).get();
 			thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
-			thisAttack->body.left = this->body.left + (this->facingLeft ? 35 : -4);
-			thisAttack->body.top = this->body.top - 4;
+			thisAttack->body.left = this->body.left + (this->facingLeft ? -22 : 22);
+			thisAttack->body.top = this->body.top+12;
 			thisAttack->render(screen);
+
+			sf::RectangleShape r;
+			r.setSize(sf::Vector2f(32,32));
+			r.setPosition(thisAttack->body.left, thisAttack->body.top);
+			//screen.draw(r);
 		}
 	} else {
 		sf::Vector2f pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));

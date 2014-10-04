@@ -9,7 +9,7 @@
 #include <cmath>
 #include <memory>
 
-#define MAX_JUMP 1
+#define MAX_JUMP 0.5
 #define STAB_CD 0.8
 #define MAX_WALK_SPEED 60
 
