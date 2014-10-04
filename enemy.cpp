@@ -53,21 +53,22 @@ void Enemy::update(float dt){
 }
 
 void Enemy::render(sf::RenderWindow &screen){
-	sprite.setTextureRect(sf::IntRect((int)currentFrame*32,(3+this->currentAnim)*32,32,32));
-	sprite.setPosition(pos);
-	if(facingLeft){
-		sprite.move(64,0);
-	}
-	screen.draw(this->sprite);
-	for (int i = 0; i < this->aliveAttacks.size(); i++) {
-		Attack* thisAttack = aliveAttacks.at(i).get();
-		thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
-		thisAttack->render(screen);
+	if (!this->dead) {
+		sprite.setTextureRect(sf::IntRect((int)currentFrame*32,(3+this->currentAnim)*32,32,32));
+		sprite.setPosition(pos);
+		if(facingLeft){
+			sprite.move(64,0);
+		}
+		screen.draw(this->sprite);
+		for (int i = 0; i < this->aliveAttacks.size(); i++) {
+			Attack* thisAttack = aliveAttacks.at(i).get();
+			thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
+			thisAttack->render(screen);
+		}
 	}
 }
 
 bool Enemy::onHit(int damage){
 	this->dead = true;
-	cout << "Ohhh noooo" << endl;
 	return true;
 };
