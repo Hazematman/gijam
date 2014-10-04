@@ -1,6 +1,14 @@
 #include "enemy.hpp"
 using namespace std;
 
+enum anims{
+	IDLE,
+	WALK,
+};
+
+#define FRAMERATE 4
+#define WFRAMERATE 6
+
 Enemy::Enemy(){
 	this->speed = 30;
 	this->pos = sf::Vector2f(200,200);
@@ -13,7 +21,7 @@ Enemy::Enemy(){
 	this->attackCd = 0;
 
 	this->currentFrame = 0;
-	this->currentAnim = 0;
+	this->currentAnim = IDLE;
 
 	this->sTex.loadFromFile("./data/images/attacksheet.png");
 	this->sSpr.setTextureRect(sf::IntRect(0,4*32,32,32));
@@ -24,19 +32,25 @@ Enemy::Enemy(){
 void Enemy::update(float dt){
 	// Try to move towards the player, if we are too far
 	if (abs(gplayer->pos.x - this->pos.x) >= 60) {
-		cout << "trying to move" << endl;
+		//cout << "trying to move" << endl;
 		if (gplayer->pos.x < this->pos.x) {
 			isMovingLeft = true;
+			currentAnim = WALK;
 			vel += sf::Vector2f(-speed,0.);
 		} else if (isMovingLeft) {
 			isMovingLeft = false;
+			currentAnim = IDLE;
+			currentFrame = 0;
 			vel -= sf::Vector2f(-speed,0.);
 		}
 		if (gplayer->pos.x > this->pos.x) {
 			isMovingRight = true;
+			currentAnim = WALK;
 			vel += sf::Vector2f(+speed,0.);
 		} else if (isMovingRight) {
 			isMovingRight = false;
+			currentAnim = IDLE;
+			currentFrame = 0;
 			vel -= sf::Vector2f(+speed,0.);
 		}
 		if (this->attackCd <= 0 && isMovingLeft) {
@@ -49,7 +63,7 @@ void Enemy::update(float dt){
 			sSpr.setScale(+2,2);
 		}
 	} else if (this->attackCd <= 0) {
-		// Cancerl current movement
+		// Cancel current movement
 		if (isMovingLeft) {
 			isMovingLeft = false;
 			if(vel.x != 0)
@@ -83,10 +97,19 @@ void Enemy::update(float dt){
 
 		thisAttack->update(dt);
 	}
+
+	if(this->currentAnim == IDLE){
+		currentFrame += FRAMERATE*dt;	
+		currentFrame = fmod(currentFrame, 2);
+	} else if(this->currentAnim == WALK){
+		currentFrame += WFRAMERATE*dt;
+		currentFrame = fmod(currentFrame, 6);
+	}
 }
 
 void Enemy::render(sf::RenderWindow &screen){
 	if (!this->dead) {
+		//cout << currentFrame << " " << currentAnim << endl;
 		sprite.setTextureRect(sf::IntRect((int)currentFrame*32,(3+this->currentAnim)*32,32,32));
 		sprite.setPosition(pos);
 		if(facingLeft){
@@ -108,6 +131,11 @@ void Enemy::render(sf::RenderWindow &screen){
 		} else {
 			sf::Vector2f pos = this->pos + (this->facingLeft ? sf::Vector2f(28,-4) : sf::Vector2f(36,-4));
 			sSpr.setPosition(pos);
+			if(currentAnim != IDLE){
+				this->sSpr.setTextureRect(sf::IntRect(32,4*32,32,32));
+			} else {
+				this->sSpr.setTextureRect(sf::IntRect(0,4*32,32,32));
+			}
 			screen.draw(sSpr);
 		}
 	}
