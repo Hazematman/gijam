@@ -94,7 +94,7 @@ void Enemy::update(float dt){
 		// Jump onto people, pushing them away
 		if (collidedEnt->moves && collidedEnt->pos.y > pos.y && collidedEnt->invulnWindow <= 0) {
 			collidedEnt->invulnWindow = INVULN_WINDOW;
-			collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? 40 : -40);
+			collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? -50 : 50);
 			cout << "EnemyJump" << endl;
 		}
 	}
@@ -140,6 +140,9 @@ void Enemy::render(sf::RenderWindow &screen){
 		if(facingLeft){
 			sprite.move(64,0);
 		}
+		sf::RectangleShape rect(sf::Vector2f(body.width,body.height));
+		rect.setPosition(body.left,body.top);
+		screen.draw(rect);
 		screen.draw(this->sprite);
 		if(this->aliveAttacks.size() > 0){
 			for (int i = 0; i < this->aliveAttacks.size(); i++) {
@@ -174,6 +177,7 @@ bool Enemy::onHit(int damage, bool facingLeft){
 		gworld->removeBody(thisAttack);
 	}
 	gworld->removeBody(this);*/
-	vel.x += (facingLeft ? -10 : 10);
+	cout << facingLeft << endl;
+	vel.x += (facingLeft ? -70 : 70);
 	return true;
 };

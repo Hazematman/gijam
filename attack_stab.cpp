@@ -34,8 +34,8 @@ void AttackStab::update(float dt) {
 		for (RigidBody* collidedRB : this->collided) {
 			Entity* collidedEnt = (Entity*) collidedRB;
 			if (this->fromPlayer && collidedEnt->tag != "player") collidedEnt->onHit(damage, facingLeft);
-			if ((!this->fromPlayer) && collidedEnt->tag == "player") collidedEnt->onHit(damage, facingLeft);
-			//if (!this->fromPlayer) cout << collidedEnt->tag << endl;
+			if (!(this->fromPlayer) && collidedEnt->tag == "player") collidedEnt->onHit(damage, facingLeft);
+			if (!this->fromPlayer) cout << collidedEnt->tag << endl;
 		}
 	}
 	this->timeToNextFrame -= dt;

@@ -88,7 +88,7 @@ void Player::update(float dt){
 			// Jump onto people, pushing them away
 			if (collidedEnt->moves && collidedEnt->pos.y+collidedEnt->body.height > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
 				collidedEnt->invulnWindow = INVULN_WINDOW;
-				collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? 40 : -40);
+				collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? -50 : 50);
 				cout << "PlayerJump" << endl;
 			}
 		}
@@ -142,6 +142,9 @@ void Player::render(sf::RenderWindow &screen){
 	if(facingLeft){
 		sprite.move(32,0);
 	}
+	sf::RectangleShape rect(sf::Vector2f(body.width,body.height));
+	rect.setPosition(body.left,body.top);
+	screen.draw(rect);
 	screen.draw(this->sprite);
 	if(this->aliveAttacks.size() > 0){
 		for (int i = 0; i < this->aliveAttacks.size(); i++) {
@@ -177,6 +180,6 @@ bool Player::onHit(int damage, bool facingLeft){
 			thisAttack->dead = true;
 		}
 	}*/
-	vel.x += (facingLeft ? -10 : 10);
+	vel.x += (facingLeft ? -70 : 70);
 	return true;
 }

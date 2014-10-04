@@ -13,7 +13,7 @@ RigidBody::RigidBody(){
 }
 
 void PhysWorld::update(float dt){
-	for(RigidBody* body : bodies){
+	/*for(RigidBody* body : bodies){
 		if(body->moves){
 			body->vel += gravity*dt;
 			body->vel.x *= DRAG*(1-dt);
@@ -21,7 +21,7 @@ void PhysWorld::update(float dt){
 			body->body.left = body->pos.x;
 			body->body.top = body->pos.y;
 		}
-	}
+	}*/
 	for(int i = 0; i < bodies.size(); i++){
 		RigidBody* b1 = bodies.at(i);
 		if (b1->dead) {
@@ -30,12 +30,20 @@ void PhysWorld::update(float dt){
 			continue;
 		}
 		b1->collided.clear();
+		if(b1->moves){
+			b1->vel += gravity*dt;
+			b1->vel.x *= DRAG*(1-dt);
+			b1->pos += b1->vel*dt;
+			b1->body.left = b1->pos.x;
+			b1->body.top = b1->pos.y;
+		}
 		for(RigidBody* b2 : bodies){
 			if (b2->tag == "attack") {
 				continue;
 			}
 			if(b1 != b2 && b1->body.intersects(b2->body)){
 				b1->collided.push_back(b2);
+				b2->collided.push_back(b1);
 				b1->pos += b1->vel*-dt;
 				b1->body.left = b1->pos.x;
 				b1->body.top = b1->pos.y;
