@@ -30,6 +30,9 @@ void PhysWorld::update(float dt){
 		}
 		b1->collided.clear();
 		for(RigidBody* b2 : bodies){
+			if (b2->tag == "attack") {
+				continue;
+			}
 			if(b1 != b2 && b1->body.intersects(b2->body)){
 				b1->collided.push_back(b2);
 				b1->pos += b1->vel*-dt;

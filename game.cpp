@@ -2,6 +2,8 @@
 #include <iostream>
 using namespace std;
 
+PhysWorld *gworld;
+
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
 	plat.setSprite("./data/images/DownArrow.png");
@@ -9,6 +11,7 @@ bool Game::init(){
 	world.bodies.push_back(&plat);
 	p.setSprite("./data/images/charsheet.png");
 	world.gravity = sf::Vector2f(0,GRAVITY);
+	gworld = &world;
 	return true;
 }
 
