@@ -21,7 +21,13 @@ void PhysWorld::update(float dt){
 			body->body.top = body->pos.y;
 		}
 	}
-	for(RigidBody* b1 : bodies){
+	for(int i = 0; i < bodies.size(); i++){
+		RigidBody* b1 = bodies.at(i);
+		if (b1->dead) {
+			bodies.erase(bodies.begin() + i);
+			i--;
+			continue;
+		}
 		b1->collided.clear();
 		for(RigidBody* b2 : bodies){
 			if(b1 != b2 && b1->body.intersects(b2->body)){
