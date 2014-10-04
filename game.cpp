@@ -6,6 +6,7 @@ bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
 	p.setSprite("./data/images/Marisa_Stand_01.png");	
 	world.bodies.push_back(&p.rb);
+	world.gravity = sf::Vector2f(0,9.81);
 	return true;
 }
 
@@ -38,6 +39,7 @@ int Game::run(){
 }
 
 void Game::update(float dt){
+	world.update(dt);
 }
 
 void Game::render(){

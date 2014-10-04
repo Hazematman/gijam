@@ -17,5 +17,6 @@ void Player::update(float dt){
 }
 
 void Player::render(sf::RenderWindow &screen){
+	sprite.setPosition(rb.pos);
 	screen.draw(this->sprite);
 }
