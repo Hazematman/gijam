@@ -12,6 +12,7 @@ class Player : public Entity {
 public:
 	float speed;
 	bool isMovingLeft, isMovingRight;
+	bool facingLeft;
 	float jumpPowerLeft;
 	Player();
 	void render(sf::RenderWindow &screen);
