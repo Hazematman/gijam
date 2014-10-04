@@ -3,10 +3,13 @@
 using namespace std;
 
 #define FRAMERATE 6
-#define WFRAMERATE 12
+#define WFRAMERATE 8
+#define KFRAMERATE 10
+
+#define UPSPEED 30
 
 Player::Player(){
-	this->speed = 50;
+	this->speed = 30;
 	this->pos = sf::Vector2f(0,200);
 	this->tag = "player";
 	this->body = sf::Rect<float> (0,200,32,64);
@@ -27,24 +30,32 @@ void Player::update(float dt){
 			isMovingLeft = true;
 			vel += sf::Vector2f(-speed,0.);
 			currentAnim = WALK;
+			currentFrame = 0;
 		}
 	} else if (isMovingLeft) {
 		isMovingLeft = false;
-		currentAnim = IDLE;
 		if(vel.x != 0)
 			vel -= sf::Vector2f(-speed,0.);
+		if(currentAnim == KWALK)
+			vel -= sf::Vector2f(-UPSPEED, 0);
+		currentAnim = IDLE;
+		currentFrame = 0;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		if (!isMovingRight) {
 			isMovingRight = true;
 			currentAnim = WALK;
+			currentFrame = 0;
 			vel += sf::Vector2f(+speed,0.);
 		}
 	} else if (isMovingRight) {
 		isMovingRight = false;
-		currentAnim = IDLE;
 		if(vel.x != 0)
 			vel -= sf::Vector2f(+speed,0.);
+		if(currentAnim == KWALK)
+			vel -= sf::Vector2f(UPSPEED,0);
+		currentAnim = IDLE;
+		currentFrame = 0;
 	}
 	if (this->attackCd <= 0 && isMovingLeft) {
 		facingLeft = true;
@@ -96,11 +107,12 @@ void Player::update(float dt){
 	} else if(this->currentAnim == WALK){
 		currentFrame += WFRAMERATE*dt;
 		if(currentFrame > 3){
-			currentAnim = WALK;
+			currentAnim = KWALK;
+			this->vel += sf::Vector2f(isMovingLeft? -UPSPEED : UPSPEED ,0);
 		}
 		currentFrame = fmod(currentFrame, 3);
 	} else if(this->currentAnim == KWALK){
-		currentFrame += WFRAMERATE*dt;
+		currentFrame += KFRAMERATE*dt;
 		currentFrame = fmod(currentFrame, 3);
 	}
 }
