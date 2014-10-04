@@ -3,7 +3,7 @@
 using namespace std;
 
 Player::Player(){
-	this->speed = 40;
+	this->speed = 50;
 	this->pos = sf::Vector2f(0,200);
 	this->tag = "player";
 	this->isMovingLeft = false;
@@ -41,7 +41,7 @@ void Player::update(float dt){
 	} else {
 		this->jumpPowerLeft = 0;
 	}
-	if (abs(vel.y) <= 0.01 && collided.size() > 0) {
+	if (rb.vel.y == 0 && rb.collided.size() > 0) {
 		this->jumpPowerLeft = MAX_JUMP;
 	}
 }
