@@ -6,16 +6,20 @@ Player::Player(){
 	this->speed = 50;
 	this->pos = sf::Vector2f(0,200);
 	this->tag = "player";
-	this->body = sf::Rect<float> (0,200,16,32);
+	this->body = sf::Rect<float> (0,200,32,64);
 	this->isMovingLeft = false;
 	this->isMovingRight = false;
+	this->facingLeft = false;
+	this->sprite.setScale(2,2);
 }
 
 void Player::update(float dt){
 	// Horizontal Movement
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		if (!isMovingLeft) {
+			sprite.setScale(-2,2);
 			isMovingLeft = true;
+			facingLeft = true;
 			vel += sf::Vector2f(-speed,0.);
 		}
 	} else if (isMovingLeft) {
@@ -25,7 +29,9 @@ void Player::update(float dt){
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		if (!isMovingRight) {
+			sprite.setScale(2,2);
 			isMovingRight = true;
+			facingLeft = false;
 			vel += sf::Vector2f(+speed,0.);
 		}
 	} else if (isMovingRight) {
@@ -37,7 +43,6 @@ void Player::update(float dt){
 	// Vertical Movement
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && this->jumpPowerLeft > 0) {
 		vel += sf::Vector2f(0.,-GRAVITY*this->jumpPowerLeft/MAX_JUMP*dt*40);
-		cout << -GRAVITY*this->jumpPowerLeft/MAX_JUMP << endl;
 		this->jumpPowerLeft -= dt*10;
 	} else {
 		this->jumpPowerLeft = 0;
@@ -48,6 +53,10 @@ void Player::update(float dt){
 }
 
 void Player::render(sf::RenderWindow &screen){
+	sprite.setTextureRect(sf::IntRect(0,0,16,32));
 	sprite.setPosition(pos);
+	if(facingLeft){
+		sprite.move(32,0);
+	}
 	screen.draw(this->sprite);
 }
