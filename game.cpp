@@ -8,6 +8,9 @@ bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
 	this->addPlatform(10,300);
 	this->addPlatform(100,300);
+	this->addPlatform(190,300);
+	this->addPlatform(610,300);
+	this->addPlatform(700,300);
 	this->addEnemy(120,100);
 	p.setSprite("./data/images/charsheet.png");
 	world.bodies.push_back(&p);
@@ -42,12 +45,15 @@ int Game::run(){
 void Game::update(float dt){
 	world.update(dt);
 	gplayer->update(dt);
-	for (int i = 0; i < this->enemies.size(); i++) {
+	for (int i = 0; i < enemies.size(); i++) {
 		Enemy* enemy = enemies.at(i).get();
 		if (enemy->dead) {
-			this->enemies.erase(this->enemies.begin() + i);
+			enemies.erase(enemies.begin() + i);
 			i--;
 			gworld->removeBody(enemy);
+			// Add two enemies for every dead enemy
+			addEnemy(120+70*enemies.size(),100);
+			addEnemy(120+70*enemies.size(),100);
 			continue;
 		}
 		enemy->update(dt);

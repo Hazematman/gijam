@@ -79,6 +79,11 @@ void Player::update(float dt){
 		this->jumpPowerLeft = 0;
 	}
 	if (vel.y == 0 && collided.size() > 0) {
+		for (int i = 0; i < collided.size(); i++) {
+			Entity* collidedEnt = (Entity*) collided.at(i);
+			if (collidedEnt->moves)
+				collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? 30 : -30);
+		}
 		this->jumpPowerLeft = MAX_JUMP;
 	}
 

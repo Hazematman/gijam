@@ -10,7 +10,7 @@ enum anims{
 #define WFRAMERATE 6
 
 Enemy::Enemy(){
-	this->speed = 30;
+	this->speed = 20;
 	this->pos = sf::Vector2f(200,200);
 	this->tag = "enemy";
 	this->body = sf::Rect<float> (0,200,64,64);
@@ -32,7 +32,6 @@ Enemy::Enemy(){
 void Enemy::update(float dt){
 	// Try to move towards the player, if we are too far
 	if (abs(gplayer->pos.x - this->pos.x) >= 60) {
-		//cout << "trying to move" << endl;
 		if (gplayer->pos.x < this->pos.x) {
 			isMovingLeft = true;
 			currentAnim = WALK;
@@ -105,10 +104,21 @@ void Enemy::update(float dt){
 		currentFrame += WFRAMERATE*dt;
 		currentFrame = fmod(currentFrame, 6);
 	}
+
+	// Fall off? DED
+	if (pos.y > 600) {
+		dead = true;
+		for (int i = 0; i < this->aliveAttacks.size(); i++) {
+			Attack* thisAttack = aliveAttacks.at(i).get();
+			thisAttack->dead = true;
+			gworld->removeBody(thisAttack);
+		}
+		gworld->removeBody(this);
+	}
 }
 
 void Enemy::render(sf::RenderWindow &screen){
-	if (!this->dead) {
+	if (!dead) {
 		//cout << currentFrame << " " << currentAnim << endl;
 		sprite.setTextureRect(sf::IntRect((int)currentFrame*32,(3+this->currentAnim)*32,32,32));
 		sprite.setPosition(pos);
