@@ -144,11 +144,11 @@ void Enemy::render(sf::RenderWindow &screen){
 		if(this->aliveAttacks.size() > 0){
 			for (int i = 0; i < this->aliveAttacks.size(); i++) {
 				sf::RectangleShape s;
-				s.setSize(sf::Vector2f(64,64));
+				s.setSize(sf::Vector2f(32,32));
 				Attack* thisAttack = aliveAttacks.at(i).get();
 				thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(28,-4) : sf::Vector2f(36,-4));
-				thisAttack->body.left = this->body.left + (this->facingLeft ? -28 : 36);
-				thisAttack->body.top = this->body.top - 4;
+				thisAttack->body.left = this->body.left + (this->facingLeft ? -26 : 48);
+				thisAttack->body.top = this->body.top + 6;
 				s.setPosition(thisAttack->body.left, thisAttack->body.top);
 				//screen.draw(s);
 				thisAttack->render(screen);
