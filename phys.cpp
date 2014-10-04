@@ -17,12 +17,16 @@ void PhysWorld::update(float dt){
 		if(body->moves){
 			body->vel += gravity*dt;
 			body->pos += body->vel*dt;
+			body->body.left = body->pos.x;
+			body->body.top = body->pos.y;
 		}
 	}
 	for(RigidBody* b1 : bodies){
 		for(RigidBody* b2 : bodies){
 			if(b1 != b2 && b1->body.intersects(b2->body)){
 				b1->pos += b1->vel*-dt;
+				b1->body.left = b1->pos.x;
+				b1->body.top = b1->pos.y;
 				sf::Rect<float> x = b1->body;
 				sf::Rect<float> y = b1->body;
 				x.left += b1->vel.x*dt;
@@ -34,6 +38,8 @@ void PhysWorld::update(float dt){
 					b1->vel.y = 0;
 				}
 				b1->pos += b1->vel*dt;
+				b1->body.left = b1->pos.x;
+				b1->body.top = b1->pos.y;
 			}
 		}
 	}
