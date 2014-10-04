@@ -138,6 +138,7 @@ void Player::render(sf::RenderWindow &screen){
 
 bool Player::onHit(int damage){
 	this->HP -= damage;
+	cout << "Player hit" << endl;
 	if (HP <= 0) {
 		for (int i = 0; i < this->aliveAttacks.size(); i++) {
 			Attack* thisAttack = aliveAttacks.at(i).get();

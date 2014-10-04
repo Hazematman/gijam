@@ -83,6 +83,8 @@ void Enemy::render(sf::RenderWindow &screen){
 		for (int i = 0; i < this->aliveAttacks.size(); i++) {
 			Attack* thisAttack = aliveAttacks.at(i).get();
 			thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
+			thisAttack->body.left = this->body.left + (this->facingLeft ? 35 : -4);
+			thisAttack->body.top = this->body.top - 4;
 			thisAttack->render(screen);
 		}
 	}
