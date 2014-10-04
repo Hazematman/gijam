@@ -17,6 +17,8 @@ public:
 	bool facingLeft;
 	float jumpPowerLeft;
 	float attackCd;
+	float currentFrame;
+	int currentAnim;
 	std::vector<std::unique_ptr<Attack>> aliveAttacks;
 	Enemy();
 	void render(sf::RenderWindow &screen);

@@ -5,12 +5,15 @@ Enemy::Enemy(){
 	this->speed = 50;
 	this->pos = sf::Vector2f(200,200);
 	this->tag = "enemy";
-	this->body = sf::Rect<float> (0,200,32,64);
+	this->body = sf::Rect<float> (0,200,64,64);
 	this->isMovingLeft = false;
 	this->isMovingRight = false;
 	this->facingLeft = false;
 	this->sprite.setScale(2,2);
 	this->attackCd = 0;
+
+	this->currentFrame = 0;
+	this->currentAnim = 0;
 }
 
 void Enemy::update(float dt){
@@ -50,10 +53,10 @@ void Enemy::update(float dt){
 }
 
 void Enemy::render(sf::RenderWindow &screen){
-	sprite.setTextureRect(sf::IntRect(0,0,16,32));
+	sprite.setTextureRect(sf::IntRect((int)currentFrame*32,(3+this->currentAnim)*32,32,32));
 	sprite.setPosition(pos);
 	if(facingLeft){
-		sprite.move(32,0);
+		sprite.move(64,0);
 	}
 	screen.draw(this->sprite);
 	for (int i = 0; i < this->aliveAttacks.size(); i++) {
