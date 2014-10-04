@@ -8,7 +8,7 @@ bool Game::init(){
 	p.setSprite("./data/images/Marisa_Stand_01.png");
 	world.bodies.push_back(&p.rb);
 	world.bodies.push_back(&plat.rb);
-	world.gravity = sf::Vector2f(0,9.81);
+	world.gravity = sf::Vector2f(0,40);
 	return true;
 }
 

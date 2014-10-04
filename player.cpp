@@ -8,6 +8,7 @@ Player::Player(){
 }
 
 void Player::update(float dt){
+	// Horizontal Movement
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		if (!isMovingLeft) {
 			isMovingLeft = true;
@@ -26,6 +27,16 @@ void Player::update(float dt){
 		isMovingRight = false;
 		rb.vel -= sf::Vector2f(+10.,0.);
 	}
+
+	// Vertical Movement
+	if (abs(rb.vel.y) <= 0.01) {
+		this->jumpPowerLeft = MAX_JUMP;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && this->jumpPowerLeft > 0) {
+		cout << -40000*this->jumpPowerLeft/MAX_JUMP*dt << endl;
+		rb.vel = sf::Vector2f(0.,-40000*this->jumpPowerLeft/MAX_JUMP*dt);
+		this->jumpPowerLeft -= dt;
+	} 
 }
 
 void Player::render(sf::RenderWindow &screen){
