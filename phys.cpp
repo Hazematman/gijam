@@ -23,6 +23,17 @@ void PhysWorld::update(float dt){
 		for(RigidBody* b2 : bodies){
 			if(b1 != b2 && b1->body.intersects(b2->body)){
 				b1->pos += b1->vel*-dt;
+				sf::Rect<float> x = b1->body;
+				sf::Rect<float> y = b1->body;
+				x.left += b1->vel.x*dt;
+				y.top += b1->vel.y*dt;
+			   	if(x.intersects(b2->body)){
+					b1->vel.x = 0;
+				}	
+				if(y.intersects(b2->body)){
+					b1->vel.y = 0;
+				}
+				b1->pos += b1->vel*dt;
 			}
 		}
 	}
