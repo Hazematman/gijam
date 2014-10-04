@@ -5,6 +5,8 @@
 
 class RigidBody {
 	public:
+		std::string tag;
+		std::vector<RigidBody*> collided;
 		sf::Rect<float> body;
 		sf::Vector2f vel;
 		sf::Vector2f pos;

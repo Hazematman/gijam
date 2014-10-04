@@ -22,8 +22,10 @@ void PhysWorld::update(float dt){
 		}
 	}
 	for(RigidBody* b1 : bodies){
+		b1->collided.clear();
 		for(RigidBody* b2 : bodies){
 			if(b1 != b2 && b1->body.intersects(b2->body)){
+				b1->collided.push_back(b2);
 				b1->pos += b1->vel*-dt;
 				b1->body.left = b1->pos.x;
 				b1->body.top = b1->pos.y;
