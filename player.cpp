@@ -27,7 +27,7 @@ void Player::update(float dt){
 			isMovingRight = true;
 			rb.vel += sf::Vector2f(+speed,0.);
 		}
-	} else if (isMovingRight && rb.vel.x != 0) {
+	} else if (isMovingRight) {
 		isMovingRight = false;
 		if(rb.vel.x != 0)
 			rb.vel -= sf::Vector2f(+speed,0.);
@@ -35,8 +35,8 @@ void Player::update(float dt){
 
 	// Vertical Movement
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && this->jumpPowerLeft > 0) {
-		rb.vel = sf::Vector2f(0.,-40000*this->jumpPowerLeft/MAX_JUMP*dt);
-		this->jumpPowerLeft -= dt;
+		rb.vel += sf::Vector2f(0.,-GRAVITY/40*this->jumpPowerLeft/MAX_JUMP);
+		this->jumpPowerLeft -= dt*10;
 	} else {
 		this->jumpPowerLeft = 0;
 	}
