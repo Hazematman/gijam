@@ -3,6 +3,8 @@
 using namespace std;
 
 Player::Player(){
+	this->speed = 40;
+	this->rb.pos = sf::Vector2f(0,200);
 	this->isMovingLeft = false;
 	this->isMovingRight = false;
 }
@@ -11,20 +13,22 @@ void Player::update(float dt){
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		if (!isMovingLeft) {
 			isMovingLeft = true;
-			rb.vel += sf::Vector2f(-10.,0.);
+			rb.vel += sf::Vector2f(-speed,0.);
 		}
 	} else if (isMovingLeft) {
 		isMovingLeft = false;
-		rb.vel -= sf::Vector2f(-10.,0.);
+		if(rb.vel.x != 0)
+			rb.vel -= sf::Vector2f(-speed,0.);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		if (!isMovingRight) {
 			isMovingRight = true;
-			rb.vel += sf::Vector2f(+10.,0.);
+			rb.vel += sf::Vector2f(+speed,0.);
 		}
-	} else if (isMovingRight) {
+	} else if (isMovingRight && rb.vel.x != 0) {
 		isMovingRight = false;
-		rb.vel -= sf::Vector2f(+10.,0.);
+		if(rb.vel.x != 0)
+			rb.vel -= sf::Vector2f(+speed,0.);
 	}
 }
 
