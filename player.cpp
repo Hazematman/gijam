@@ -22,6 +22,11 @@ Player::Player(){
 
 	this->currentFrame = 0;
 	this->currentAnim = 0;
+
+	this->sTex.loadFromFile("./data/images/attacksheet.png");
+	this->sSpr.setTexture(this->sTex);
+	this->sSpr.setScale(2,2);
+	this->sSpr.setTextureRect(sf::IntRect(0,0,32,32));
 }
 
 void Player::update(float dt){
@@ -55,9 +60,11 @@ void Player::update(float dt){
 	if (this->attackCd <= 0 && isMovingLeft) {
 		facingLeft = true;
 		sprite.setScale(-2,2);
+		sSpr.setScale(-2,2);
 	} else if (this->attackCd <= 0 && isMovingRight) {
 		facingLeft = false;
 		sprite.setScale(+2,2);
+		sSpr.setScale(+2,2);
 	} 
 
 	// Vertical Movement
@@ -119,12 +126,18 @@ void Player::render(sf::RenderWindow &screen){
 		sprite.move(32,0);
 	}
 	screen.draw(this->sprite);
-	for (int i = 0; i < this->aliveAttacks.size(); i++) {
-		Attack* thisAttack = aliveAttacks.at(i).get();
-		thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
-		thisAttack->body.left = this->body.left + (this->facingLeft ? 35 : -4);
-		thisAttack->body.top = this->body.top - 4;
-		thisAttack->render(screen);
+	if(this->aliveAttacks.size() > 0){
+		for (int i = 0; i < this->aliveAttacks.size(); i++) {
+			Attack* thisAttack = aliveAttacks.at(i).get();
+			thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
+			thisAttack->body.left = this->body.left + (this->facingLeft ? 35 : -4);
+			thisAttack->body.top = this->body.top - 4;
+			thisAttack->render(screen);
+		}
+	} else {
+		sf::Vector2f pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
+		this->sSpr.setPosition(pos);
+		screen.draw(this->sSpr);
 	}
 }
 

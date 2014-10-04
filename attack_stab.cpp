@@ -25,7 +25,7 @@ AttackStab::AttackStab(int damage, float lifetime, bool facingLeft, bool fromPla
 	this->fromPlayer = fromPlayer;
 	if(!fromPlayer){
 		this->framePos = 5;
-		this->timeToNextFrame = 0.3;
+		this->timeToNextFrame = 0.5;
 	}
 }
 

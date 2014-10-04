@@ -12,6 +12,8 @@
 
 class Enemy : public Entity {
 public:
+	sf::Texture sTex;
+	sf::Sprite sSpr;
 	float speed;
 	bool isMovingLeft, isMovingRight;
 	bool facingLeft;
