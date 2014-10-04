@@ -25,7 +25,7 @@ void PhysWorld::update(float dt){
 		RigidBody* b1 = bodies.at(i);
 		if (b1->dead) {
 			bodies.erase(bodies.begin() + i);
-			i--;
+			i==0 ? i=0: i--;
 			continue;
 		}
 		b1->collided.clear();
