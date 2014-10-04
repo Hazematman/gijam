@@ -2,8 +2,14 @@
 #include "player.hpp"
 using namespace std;
 
+#define FRAMERATE 6
+#define WFRAMERATE 8
+#define KFRAMERATE 10
+
+#define UPSPEED 30
+
 Player::Player(){
-	this->speed = 50;
+	this->speed = 30;
 	this->pos = sf::Vector2f(0,200);
 	this->tag = "player";
 	this->body = sf::Rect<float> (0,200,32,64);
@@ -12,6 +18,9 @@ Player::Player(){
 	this->facingLeft = false;
 	this->sprite.setScale(2,2);
 	this->attackCd = 0;
+
+	this->currentFrame = 0;
+	this->currentAnim = 0;
 }
 
 void Player::update(float dt){
@@ -20,21 +29,33 @@ void Player::update(float dt){
 		if (!isMovingLeft) {
 			isMovingLeft = true;
 			vel += sf::Vector2f(-speed,0.);
+			currentAnim = WALK;
+			currentFrame = 0;
 		}
 	} else if (isMovingLeft) {
 		isMovingLeft = false;
 		if(vel.x != 0)
 			vel -= sf::Vector2f(-speed,0.);
+		if(currentAnim == KWALK)
+			vel -= sf::Vector2f(-UPSPEED, 0);
+		currentAnim = IDLE;
+		currentFrame = 0;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		if (!isMovingRight) {
 			isMovingRight = true;
+			currentAnim = WALK;
+			currentFrame = 0;
 			vel += sf::Vector2f(+speed,0.);
 		}
 	} else if (isMovingRight) {
 		isMovingRight = false;
 		if(vel.x != 0)
 			vel -= sf::Vector2f(+speed,0.);
+		if(currentAnim == KWALK)
+			vel -= sf::Vector2f(UPSPEED,0);
+		currentAnim = IDLE;
+		currentFrame = 0;
 	}
 	if (this->attackCd <= 0 && isMovingLeft) {
 		facingLeft = true;
@@ -79,10 +100,25 @@ void Player::update(float dt){
 
 		thisAttack->update(dt);
 	}
+
+	if(this->currentAnim == IDLE){
+		currentFrame += FRAMERATE*dt;	
+		currentFrame = fmod(currentFrame, 2);
+	} else if(this->currentAnim == WALK){
+		currentFrame += WFRAMERATE*dt;
+		if(currentFrame > 3){
+			currentAnim = KWALK;
+			this->vel += sf::Vector2f(isMovingLeft? -UPSPEED : UPSPEED ,0);
+		}
+		currentFrame = fmod(currentFrame, 3);
+	} else if(this->currentAnim == KWALK){
+		currentFrame += KFRAMERATE*dt;
+		currentFrame = fmod(currentFrame, 3);
+	}
 }
 
 void Player::render(sf::RenderWindow &screen){
-	sprite.setTextureRect(sf::IntRect(0,0,16,32));
+	sprite.setTextureRect(sf::IntRect((int)this->currentFrame*16,(int)this->currentAnim*32,16,32));
 	sprite.setPosition(pos);
 	if(facingLeft){
 		sprite.move(32,0);
