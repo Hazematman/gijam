@@ -12,15 +12,19 @@
 
 class Enemy : public Entity {
 public:
+	sf::Texture sTex;
+	sf::Sprite sSpr;
 	float speed;
 	bool isMovingLeft, isMovingRight;
 	bool facingLeft;
 	float jumpPowerLeft;
 	float attackCd;
+	float currentFrame;
+	int currentAnim;
 	std::vector<std::unique_ptr<Attack>> aliveAttacks;
 	Enemy();
 	void render(sf::RenderWindow &screen);
 	void update(float dt);
-	bool onHit(int damage);
+	bool onHit(int damage, bool facingLeft);
 };
 #endif

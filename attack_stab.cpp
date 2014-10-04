@@ -23,15 +23,19 @@ AttackStab::AttackStab(int damage, float lifetime, bool facingLeft, bool fromPla
 	this->moves = false;
 	this->timeToNextFrame = STAB_FRAME_LENGTH;
 	this->fromPlayer = fromPlayer;
+	if(!fromPlayer){
+		this->framePos = 5;
+		this->timeToNextFrame = 0.5;
+	}
 }
 
 void AttackStab::update(float dt) {
 	if (!this->dead) {
 		for (RigidBody* collidedRB : this->collided) {
 			Entity* collidedEnt = (Entity*) collidedRB;
-			this->fromPlayer && collidedEnt->tag != "player" && collidedEnt->onHit(damage);
-			!this->fromPlayer && collidedEnt->tag == "player" && collidedEnt->onHit(damage);
-			//cout << collidedEnt->tag << endl;
+			if (this->fromPlayer && collidedEnt->tag != "player") collidedEnt->onHit(damage, facingLeft);
+			if ((!this->fromPlayer) && collidedEnt->tag == "player") collidedEnt->onHit(damage, facingLeft);
+			if (!this->fromPlayer) cout << collidedEnt->tag << endl;
 		}
 	}
 	this->timeToNextFrame -= dt;
@@ -42,6 +46,5 @@ void AttackStab::update(float dt) {
 	this->lifetime -= dt;
 	if (this->lifetime <= 0) {
 		this->dead = true;
-		cout << "ded" << endl;
 	}
 }

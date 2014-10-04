@@ -11,6 +11,7 @@
 
 #define MAX_JUMP 1
 #define STAB_CD 0.8
+#define MAX_WALK_SPEED 60
 
 enum Anims {
 	IDLE,
@@ -20,6 +21,8 @@ enum Anims {
 
 class Player : public Entity {
 public:
+	sf::Texture sTex;
+	sf::Sprite sSpr;
 	float speed;
 	bool isMovingLeft, isMovingRight;
 	bool facingLeft;
@@ -27,11 +30,12 @@ public:
 	int currentAnim;
 	float jumpPowerLeft;
 	float attackCd;
+	int HP;
 	std::vector<std::unique_ptr<Attack>> aliveAttacks;
 	Player();
 	void render(sf::RenderWindow &screen);
 	void update(float dt);
-	bool onHit(int damage);
+	bool onHit(int damage, bool facingLeft);
 };
 
 extern Player *gplayer;

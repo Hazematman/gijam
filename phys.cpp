@@ -16,6 +16,7 @@ void PhysWorld::update(float dt){
 	for(RigidBody* body : bodies){
 		if(body->moves){
 			body->vel += gravity*dt;
+			body->vel.x *= DRAG;
 			body->pos += body->vel*dt;
 			body->body.left = body->pos.x;
 			body->body.top = body->pos.y;
@@ -52,6 +53,16 @@ void PhysWorld::update(float dt){
 				b1->body.left = b1->pos.x;
 				b1->body.top = b1->pos.y;
 			}
+		}
+	}
+}
+
+void PhysWorld::removeBody(RigidBody* body) {
+	for(int i = 0; i < bodies.size(); i++){
+		if (body == bodies.at(i)) {
+			bodies.erase(bodies.begin() + i);
+			i==0 ? i=0: i--;
+			continue;
 		}
 	}
 }
