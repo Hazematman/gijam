@@ -10,7 +10,7 @@ class Entity : public RigidBody {
 		void setSprite(std::string filename);
 		virtual void render(sf::RenderWindow &screen){};
 		virtual void update(float dt){};
-		virtual bool onHit(int damage){return false;};	// callback for being hit with damage, returns whether an attack "connected"
+		virtual bool onHit(int damage, bool facingLeft){return false;};	// callback for being hit with damage, returns whether an attack "connected"
 };
 
 #endif
