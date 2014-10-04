@@ -8,6 +8,7 @@ AttackStab::AttackStab() {
 	this->sprite.setScale(2,2);
 	this->facingLeft = false;
 	this->moves = false;
+	this->timeToNextFrame = STAB_FRAME_LENGTH;
 }
 
 AttackStab::AttackStab(int damage, float lifetime, bool facingLeft) {
@@ -17,6 +18,7 @@ AttackStab::AttackStab(int damage, float lifetime, bool facingLeft) {
 	this->sprite.setScale((facingLeft ? -2 : 2),2);
 	this->facingLeft = facingLeft;
 	this->moves = false;
+	this->timeToNextFrame = STAB_FRAME_LENGTH;
 }
 
 void AttackStab::update(float dt) {
@@ -25,6 +27,11 @@ void AttackStab::update(float dt) {
 			Entity* collidedEnt = (Entity*) collidedRB;
 			collidedEnt->tag != "player" && collidedEnt->onHit(damage);
 		}
+	}
+	this->timeToNextFrame -= dt;
+	if (this->timeToNextFrame <= 0) {
+		this->frameNum += 1;
+		this->timeToNextFrame = STAB_FRAME_LENGTH;
 	}
 	this->lifetime -= dt;
 	if (this->lifetime <= 0) {

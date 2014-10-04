@@ -10,7 +10,7 @@
 #include <memory>
 
 #define MAX_JUMP 1
-#define STAB_CD 0.7
+#define STAB_CD 0.8
 
 class Player : public Entity {
 public:
