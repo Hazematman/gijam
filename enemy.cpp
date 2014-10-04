@@ -85,6 +85,21 @@ void Enemy::update(float dt){
 	}
 	this->attackCd -= dt;
 
+	for (int i = 0; i < collided.size(); i++) {
+		Entity* collidedEnt = (Entity*) collided.at(i);
+		if (collidedEnt->tag == "platform") {
+			this->jumpPowerLeft = MAX_JUMP;
+			break;
+		}
+		// Jump onto people, pushing them away
+		if (collidedEnt->moves && collidedEnt->pos.y > pos.y && collidedEnt->invulnWindow <= 0) {
+			collidedEnt->invulnWindow = INVULN_WINDOW;
+			collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? 40 : -40);
+			cout << "EnemyJump" << endl;
+		}
+	}
+	invulnWindow -= dt;
+
 	for (int i = 0; i < this->aliveAttacks.size(); i++) {
 		Attack *thisAttack = aliveAttacks.at(i).get();
 		if (thisAttack->dead) {

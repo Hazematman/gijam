@@ -48,12 +48,12 @@ void Game::update(float dt){
 	for (int i = 0; i < enemies.size(); i++) {
 		Enemy* enemy = enemies.at(i).get();
 		if (enemy->dead) {
-			enemies.erase(enemies.begin() + i);
-			i--;
-			gworld->removeBody(enemy);
 			// Add two enemies for every dead enemy
 			addEnemy(120+70*enemies.size(),100);
 			addEnemy(120+70*enemies.size(),100);
+			enemies.erase(enemies.begin() + i);
+			i--;
+			gworld->removeBody(enemy);
 			continue;
 		}
 		enemy->update(dt);
