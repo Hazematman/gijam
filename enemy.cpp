@@ -62,8 +62,8 @@ void Enemy::update(float dt){
 	for (int i = 0; i < this->aliveAttacks.size(); i++) {
 		Attack *thisAttack = aliveAttacks.at(i).get();
 		if (thisAttack->dead) {
-			this->aliveAttacks.erase(this->aliveAttacks.begin() + i);
 			gworld->removeBody(thisAttack);
+			this->aliveAttacks.erase(this->aliveAttacks.begin() + i);
 			i--;
 			continue;
 		}
@@ -90,5 +90,9 @@ void Enemy::render(sf::RenderWindow &screen){
 
 bool Enemy::onHit(int damage){
 	this->dead = true;
+	for (int i = 0; i < this->aliveAttacks.size(); i++) {
+		Attack* thisAttack = aliveAttacks.at(i).get();
+		thisAttack->dead = true;
+	}
 	return true;
 };

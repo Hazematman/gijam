@@ -18,6 +18,7 @@ Player::Player(){
 	this->facingLeft = false;
 	this->sprite.setScale(2,2);
 	this->attackCd = 0;
+	this->HP = 40;
 
 	this->currentFrame = 0;
 	this->currentAnim = 0;
@@ -94,8 +95,8 @@ void Player::update(float dt){
 	for (int i = 0; i < this->aliveAttacks.size(); i++) {
 		Attack *thisAttack = aliveAttacks.at(i).get();
 		if (thisAttack->dead) {
-			this->aliveAttacks.erase(this->aliveAttacks.begin() + i);
 			gworld->removeBody(thisAttack);
+			this->aliveAttacks.erase(this->aliveAttacks.begin() + i);
 			i--;
 			continue;
 		}
@@ -136,5 +137,12 @@ void Player::render(sf::RenderWindow &screen){
 }
 
 bool Player::onHit(int damage){
+	this->HP -= damage;
+	if (HP <= 0) {
+		for (int i = 0; i < this->aliveAttacks.size(); i++) {
+			Attack* thisAttack = aliveAttacks.at(i).get();
+			thisAttack->dead = true;
+		}
+	}
 	return true;
 }
