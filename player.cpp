@@ -35,7 +35,6 @@ void Player::update(float dt){
 		isMovingLeft = true;
 		vel += sf::Vector2f(-speed,0.);
 		currentAnim = WALK;
-		currentFrame = 0;
 	} else if (isMovingLeft) {
 		isMovingLeft = false;
 		if(vel.x != 0) {
@@ -47,7 +46,6 @@ void Player::update(float dt){
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		isMovingRight = true;
 		currentAnim = WALK;
-		currentFrame = 0;
 		vel += sf::Vector2f(+speed,0.);
 	} else if (isMovingRight) {
 		isMovingRight = false;
