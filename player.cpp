@@ -81,11 +81,19 @@ void Player::update(float dt){
 	if (vel.y == 0 && collided.size() > 0) {
 		for (int i = 0; i < collided.size(); i++) {
 			Entity* collidedEnt = (Entity*) collided.at(i);
-			if (collidedEnt->moves)
-				collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? 30 : -30);
+			if (collidedEnt->tag == "platform") {
+				this->jumpPowerLeft = MAX_JUMP;
+				break;
+			}
+			// Jump onto people, pushing them away
+			if (collidedEnt->moves && collidedEnt->pos.y+collidedEnt->body.height > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
+				collidedEnt->invulnWindow = INVULN_WINDOW;
+				collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? 40 : -40);
+				cout << "PlayerJump" << endl;
+			}
 		}
-		this->jumpPowerLeft = MAX_JUMP;
 	}
+	invulnWindow -= dt;
 
 	// Attacks
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && this->attackCd <= 0) {
