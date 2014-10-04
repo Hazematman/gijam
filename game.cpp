@@ -7,7 +7,7 @@ Floor f;
 
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
-	this->addEnemy(120,100);
+	this->addEnemy(520,100);
 	f.init(600,300);
 	f.pos = sf::Vector2f(100,400);
 	world.bodies.push_back(&f);

@@ -42,8 +42,10 @@ void PhysWorld::update(float dt){
 				continue;
 			}
 			if(b1 != b2 && b1->body.intersects(b2->body)){
+				if (b1->tag == "attack") {
+					cout << b2->tag << endl;
+				}
 				b1->collided.push_back(b2);
-				b2->collided.push_back(b1);
 				b1->pos += b1->vel*-dt;
 				b1->body.left = b1->pos.x;
 				b1->body.top = b1->pos.y;

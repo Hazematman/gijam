@@ -88,7 +88,7 @@ void Player::update(float dt){
 			// Jump onto people, pushing them away
 			if (collidedEnt->moves && collidedEnt->pos.y+collidedEnt->body.height > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
 				collidedEnt->invulnWindow = INVULN_WINDOW;
-				collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? -50 : 50);
+				collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? 50 : -50);
 				cout << "PlayerJump" << endl;
 			}
 		}
@@ -173,13 +173,13 @@ void Player::render(sf::RenderWindow &screen){
 
 bool Player::onHit(int damage, bool facingLeft){
 	this->HP -= damage;
-	cout << "Player hit" << endl;
 	/*if (HP <= 0) {
 		for (int i = 0; i < this->aliveAttacks.size(); i++) {
 			Attack* thisAttack = aliveAttacks.at(i).get();
 			thisAttack->dead = true;
 		}
 	}*/
+	cout << "Playerhit" << endl;
 	vel.x += (facingLeft ? -70 : 70);
 	return true;
 }

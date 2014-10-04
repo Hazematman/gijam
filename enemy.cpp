@@ -31,9 +31,10 @@ Enemy::Enemy(){
 
 void Enemy::update(float dt){
 	// Try to move towards the player, if we are too far
-	if (abs(gplayer->pos.x - this->pos.x) >= 60) {
+	if (abs((gplayer->pos.x+gplayer->body.width/2) - (pos.x+body.width/2)) >= 80) {
 		if (gplayer->pos.x < this->pos.x) {
 			isMovingLeft = true;
+			facingLeft = true;
 			currentAnim = WALK;
 			vel += sf::Vector2f(-speed,0.);
 		} else if (isMovingLeft) {
@@ -44,6 +45,7 @@ void Enemy::update(float dt){
 		}
 		if (gplayer->pos.x > this->pos.x) {
 			isMovingRight = true;
+			facingLeft = false;
 			currentAnim = WALK;
 			vel += sf::Vector2f(+speed,0.);
 		} else if (isMovingRight) {
@@ -74,7 +76,7 @@ void Enemy::update(float dt){
 				vel -= sf::Vector2f(+speed,0.);
 		}
 		// We are in attacking range
-		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD, this->facingLeft, false)));
+		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD, facingLeft, false)));
 		AttackStab *newstab = ((AttackStab*) this->aliveAttacks.back().get());
 		//newstab->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
 		newstab->tag = "attack";
@@ -94,7 +96,7 @@ void Enemy::update(float dt){
 		// Jump onto people, pushing them away
 		if (collidedEnt->moves && collidedEnt->pos.y > pos.y && collidedEnt->invulnWindow <= 0) {
 			collidedEnt->invulnWindow = INVULN_WINDOW;
-			collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? -50 : 50);
+			collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? 50 : -50);
 			cout << "EnemyJump" << endl;
 		}
 	}
@@ -177,7 +179,6 @@ bool Enemy::onHit(int damage, bool facingLeft){
 		gworld->removeBody(thisAttack);
 	}
 	gworld->removeBody(this);*/
-	cout << facingLeft << endl;
 	vel.x += (facingLeft ? -70 : 70);
 	return true;
 };

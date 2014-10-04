@@ -1,6 +1,7 @@
 #ifndef PHYS_HPP
 #define PHYS_HPP
 #include <vector>
+#include <iostream>
 #include <SFML/Graphics.hpp>
 
 #define GRAVITY 140
