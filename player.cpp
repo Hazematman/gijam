@@ -8,6 +8,12 @@ using namespace std;
 
 #define UPSPEED 30
 
+enum Anims {
+	IDLE,
+	WALK,
+	KWALK,
+};
+
 Player::Player(){
 	this->speed = 30;
 	this->pos = sf::Vector2f(0,200);
@@ -135,6 +141,11 @@ void Player::render(sf::RenderWindow &screen){
 	} else {
 		sf::Vector2f pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
 		this->sSpr.setPosition(pos);
+		if(currentAnim != IDLE){
+			this->sSpr.setTextureRect(sf::IntRect(32,0,32,32));
+		} else {
+			this->sSpr.setTextureRect(sf::IntRect(0,0,32,32));
+		}
 		screen.draw(this->sSpr);
 	}
 }

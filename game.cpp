@@ -22,7 +22,8 @@ int Game::run(){
 		return EXIT_FAILURE;
 	sf::Event e;
 	sf::Clock dtTimer;
-	float dt;
+	dtTimer.restart();
+	float dt = 0;
 	while(screen.isOpen()){
 		while(screen.pollEvent(e)){
 			if(e.type == sf::Event::Closed){
