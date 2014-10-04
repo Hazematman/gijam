@@ -10,6 +10,7 @@
 
 class Player : public Entity {
 public:
+	float speed;
 	bool isMovingLeft, isMovingRight;
 	float jumpPowerLeft;
 	Player();
