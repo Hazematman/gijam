@@ -4,8 +4,10 @@ using namespace std;
 
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
-	p.setSprite("./data/images/Marisa_Stand_01.png");	
+	plat.setSprite("./data/images/DownArrow.png");
+	p.setSprite("./data/images/Marisa_Stand_01.png");
 	world.bodies.push_back(&p.rb);
+	world.bodies.push_back(&plat.rb);
 	world.gravity = sf::Vector2f(0,9.81);
 	return true;
 }
@@ -38,4 +40,5 @@ void Game::update(float dt){
 
 void Game::render(){
 	p.render(screen);
+	plat.render(screen);
 }
