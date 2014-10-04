@@ -14,6 +14,11 @@ Enemy::Enemy(){
 
 	this->currentFrame = 0;
 	this->currentAnim = 0;
+
+	this->sTex.loadFromFile("./data/images/attacksheet.png");
+	this->sSpr.setTextureRect(sf::IntRect(0,4*32,32,32));
+	this->sSpr.setTexture(this->sTex);
+	this->sSpr.setScale(+2,2);
 }
 
 void Enemy::update(float dt){
@@ -43,9 +48,11 @@ void Enemy::update(float dt){
 		if (this->attackCd <= 0 && isMovingLeft) {
 			facingLeft = true;
 			sprite.setScale(-2,2);
+			sSpr.setScale(-2,2);
 		} else if (this->attackCd <= 0 && isMovingRight) {
 			facingLeft = false;
 			sprite.setScale(+2,2);
+			sSpr.setScale(+2,2);
 		}
 	} else if (this->attackCd <= 0) {
 		// Cancerl current movement
@@ -92,16 +99,22 @@ void Enemy::render(sf::RenderWindow &screen){
 			sprite.move(64,0);
 		}
 		screen.draw(this->sprite);
-		for (int i = 0; i < this->aliveAttacks.size(); i++) {
-			sf::RectangleShape s;
-			s.setSize(sf::Vector2f(64,64));
-			Attack* thisAttack = aliveAttacks.at(i).get();
-			thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(28,-4) : sf::Vector2f(36,-4));
-			thisAttack->body.left = this->body.left + (this->facingLeft ? -28 : 36);
-			thisAttack->body.top = this->body.top - 4;
-			s.setPosition(thisAttack->body.left, thisAttack->body.top);
-			//screen.draw(s);
-			thisAttack->render(screen);
+		if(this->aliveAttacks.size() > 0){
+			for (int i = 0; i < this->aliveAttacks.size(); i++) {
+				sf::RectangleShape s;
+				s.setSize(sf::Vector2f(64,64));
+				Attack* thisAttack = aliveAttacks.at(i).get();
+				thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(28,-4) : sf::Vector2f(36,-4));
+				thisAttack->body.left = this->body.left + (this->facingLeft ? -28 : 36);
+				thisAttack->body.top = this->body.top - 4;
+				s.setPosition(thisAttack->body.left, thisAttack->body.top);
+				//screen.draw(s);
+				thisAttack->render(screen);
+			}
+		} else {
+			sf::Vector2f pos = this->pos + (this->facingLeft ? sf::Vector2f(28,-4) : sf::Vector2f(36,-4));
+			sSpr.setPosition(pos);
+			screen.draw(sSpr);
 		}
 	}
 }
