@@ -20,15 +20,8 @@ int Game::run(){
 		while(screen.pollEvent(e)){
 			if(e.type == sf::Event::Closed){
 				screen.close();
-			} else if (e.type == sf::Event::KeyPressed){
-				if (e.key.code == sf::Keyboard::Left) {
-					p.rb.vel = sf::Vector2f(-1.,0.);
-				} else if (e.key.code == sf::Keyboard::Right) { 
-					p.rb.vel = sf::Vector2f(+1.,0.);
-				};
 			}
 		}
-
 		screen.clear(sf::Color::Black);
 		update(dt);
 		render();
@@ -40,6 +33,7 @@ int Game::run(){
 
 void Game::update(float dt){
 	world.update(dt);
+	p.update(dt);
 }
 
 void Game::render(){

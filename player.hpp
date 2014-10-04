@@ -9,6 +9,7 @@ public:
 	RigidBody rb;
 	sf::Sprite sprite;
 	sf::Texture texture;
+	bool isMovingLeft, isMovingRight;
 	Player();
 	void setSprite(std::string filename);
 	void render(sf::RenderWindow &screen);
