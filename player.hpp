@@ -33,7 +33,7 @@ public:
 	Player();
 	void render(sf::RenderWindow &screen);
 	void update(float dt);
-	bool onHit(int damage);
+	bool onHit(int damage, bool facingLeft);
 };
 
 extern Player *gplayer;

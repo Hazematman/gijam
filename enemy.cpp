@@ -100,13 +100,14 @@ void Enemy::render(sf::RenderWindow &screen){
 	}
 }
 
-bool Enemy::onHit(int damage){
-	this->dead = true;
+bool Enemy::onHit(int damage, bool facingLeft){
+	/*this->dead = true;
 	for (int i = 0; i < this->aliveAttacks.size(); i++) {
 		Attack* thisAttack = aliveAttacks.at(i).get();
 		thisAttack->dead = true;
 		gworld->removeBody(thisAttack);
 	}
-	gworld->removeBody(this);
+	gworld->removeBody(this);*/
+	vel.x += (facingLeft ? -10 : 10);
 	return true;
 };

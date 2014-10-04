@@ -128,14 +128,15 @@ void Player::render(sf::RenderWindow &screen){
 	}
 }
 
-bool Player::onHit(int damage){
+bool Player::onHit(int damage, bool facingLeft){
 	this->HP -= damage;
 	cout << "Player hit" << endl;
-	if (HP <= 0) {
+	/*if (HP <= 0) {
 		for (int i = 0; i < this->aliveAttacks.size(); i++) {
 			Attack* thisAttack = aliveAttacks.at(i).get();
 			thisAttack->dead = true;
 		}
-	}
+	}*/
+	vel.x += (facingLeft ? -10 : 10);
 	return true;
 }
