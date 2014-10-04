@@ -4,7 +4,7 @@
 
 class Attack : public Entity {
 public:
-	Attack();
+	Attack(){};
 	void render(sf::RenderWindow &screen);
 	virtual void update(float dt){ };
 };

@@ -3,6 +3,7 @@ using namespace std;
 
 Entity::Entity(){
 	//this->rb = RigidBody(0,0,0,0);
+	this->dead = false;
 }
 
 void Entity::setSprite(string filename){
