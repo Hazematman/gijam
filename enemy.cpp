@@ -101,7 +101,7 @@ void Enemy::update(float dt){
 			continue;
 		}
 		// Jump onto people, pushing them away
-		if (collidedEnt->moves && collidedEnt->pos.y+collidedEnt->body.height > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
+		if (collidedEnt->moves && collidedEnt->pos.y > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
 			collidedEnt->invulnWindow = INVULN_WINDOW;
 			collidedEnt->vel.x = (pos.x < collidedEnt->pos.x ? 20 : -20);
 			cout << "EnemyJump" << vel.x << endl;

@@ -125,10 +125,13 @@ void Game::update(float dt){
 		if (timeUntilNextSpawn < 0 && enemiesToSpawn > 0) {
 			enemiesToSpawn--;
 			timeUntilNextSpawn = ENEMY_SPAWN_CD;
-			if (rand()%2 == 0) {
+			int directionToSpawn = rand();
+			if (directionToSpawn%5 < 2) {
 				addEnemy(800, 0);
-			} else {
+			} else if (directionToSpawn%5 < 4){
 				addEnemy(-64, 0);
+			} else {
+				addEnemy(400, -64);
 			}
 		}
 		if (gplayer->dead) {
