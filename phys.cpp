@@ -4,12 +4,19 @@ using namespace std;
 RigidBody::RigidBody(float x, float y, float dx, float dy){
 	this->body = sf::Rect<float>(x, y, dx, dy);
 	this->pos = sf::Vector2f(x,y);
+	this->vel = sf::Vector2f(0,0);
 	moves = true;
 }
 
 RigidBody::RigidBody(){
 	this->body = sf::Rect<float>(0, 0, 0, 0);
 	moves = true;
+}
+
+void RigidBody::render(sf::RenderWindow &screen){
+	sf::RectangleShape r(sf::Vector2f(body.width,body.height));
+	r.setPosition(body.left,body.top);
+	screen.draw(r);
 }
 
 void PhysWorld::update(float dt){
@@ -34,9 +41,9 @@ void PhysWorld::update(float dt){
 			b1->vel += gravity*dt;
 			b1->vel.x *= DRAG*(1-dt);
 			b1->pos += b1->vel*dt;
-			b1->body.left = b1->pos.x;
-			b1->body.top = b1->pos.y;
 		}
+		b1->body.left = b1->pos.x;
+		b1->body.top = b1->pos.y;
 		for(RigidBody* b2 : bodies){
 			if (b2->tag == "attack") {
 				continue;

@@ -18,6 +18,7 @@ class RigidBody {
 		bool moves;
 		RigidBody(float x, float y, float dx, float dy);
 		RigidBody();
+		void render(sf::RenderWindow &screen);
 };
 
 class PhysWorld {

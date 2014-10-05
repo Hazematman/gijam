@@ -34,7 +34,6 @@ void Enemy::update(float dt){
 	if (abs((gplayer->pos.x+gplayer->body.width/2) - (pos.x+body.width/2)) >= 80) {
 		if (gplayer->pos.x < this->pos.x) {
 			isMovingLeft = true;
-			facingLeft = true;
 			currentAnim = WALK;
 			vel += sf::Vector2f(-speed,0.);
 		} else if (isMovingLeft) {
@@ -45,7 +44,6 @@ void Enemy::update(float dt){
 		}
 		if (gplayer->pos.x > this->pos.x) {
 			isMovingRight = true;
-			facingLeft = false;
 			currentAnim = WALK;
 			vel += sf::Vector2f(+speed,0.);
 		} else if (isMovingRight) {
@@ -144,7 +142,7 @@ void Enemy::render(sf::RenderWindow &screen){
 		}
 		sf::RectangleShape rect(sf::Vector2f(body.width,body.height));
 		rect.setPosition(body.left,body.top);
-		screen.draw(rect);
+		//screen.draw(rect);
 		screen.draw(this->sprite);
 		if(this->aliveAttacks.size() > 0){
 			for (int i = 0; i < this->aliveAttacks.size(); i++) {
@@ -152,9 +150,14 @@ void Enemy::render(sf::RenderWindow &screen){
 				s.setSize(sf::Vector2f(32,32));
 				Attack* thisAttack = aliveAttacks.at(i).get();
 				thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(28,-4) : sf::Vector2f(36,-4));
-				thisAttack->body.left = this->body.left + (this->facingLeft ? -26 : 48);
+				thisAttack->body.left = this->body.left + (this->facingLeft ? 28 : 36);
 				thisAttack->body.top = this->body.top + 6;
 				s.setPosition(thisAttack->body.left, thisAttack->body.top);
+				if(facingLeft){
+					thisAttack->body.width = -(54);
+				} else {
+					thisAttack->body.width = 64; 
+				}
 				//screen.draw(s);
 				thisAttack->render(screen);
 			}

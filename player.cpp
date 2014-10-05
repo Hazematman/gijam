@@ -101,7 +101,7 @@ void Player::update(float dt){
 		AttackStab *newstab = ((AttackStab*) this->aliveAttacks.back().get());
 		//newstab->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
 		newstab->tag = "attack";
-		newstab->body = sf::Rect<float> (0,200,64,64);
+		newstab->body = sf::Rect<float> (0,200,32,32);
 		newstab->setSprite("./data/images/attacksheet.png");
 		gworld->bodies.push_back(newstab);
 		this->attackCd = STAB_CD;
@@ -144,7 +144,7 @@ void Player::render(sf::RenderWindow &screen){
 	}
 	sf::RectangleShape rect(sf::Vector2f(body.width,body.height));
 	rect.setPosition(body.left,body.top);
-	screen.draw(rect);
+	//screen.draw(rect);
 	screen.draw(this->sprite);
 	if(this->aliveAttacks.size() > 0){
 		for (int i = 0; i < this->aliveAttacks.size(); i++) {

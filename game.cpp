@@ -70,6 +70,9 @@ void Game::render(){
 		Enemy* enemy = enemies.at(i).get();
 		enemy->render(screen);
 	}
+	for(RigidBody *r : world.bodies){
+		//r->render(screen);
+	}
 }
 
 void Game::addPlatform(int x, int y) {
