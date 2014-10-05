@@ -33,7 +33,7 @@ Enemy::Enemy(){
 
 void Enemy::update(float dt){
 	// Try to move towards the player, if we are too far
-	if (abs((gplayer->pos.x+gplayer->body.width/2) - (pos.x+body.width/2)) >= 60 && invulnWindow <= 0) {
+	if (abs((gplayer->pos.x+gplayer->body.width/2) - (pos.x+body.width/2)) >= 70 && invulnWindow <= 0) {
 		if (gplayer->pos.x < this->pos.x) {
 			isMovingLeft = true;
 			currentAnim = WALK;
@@ -209,6 +209,6 @@ bool Enemy::onHit(int damage, bool facingLeft){
 		gworld->removeBody(thisAttack);
 	}
 	gworld->removeBody(this);*/
-	vel.x = (facingLeft ? -150 : 150);
+	vel.x = (facingLeft ? -300 : 300);
 	return true;
 };
