@@ -10,7 +10,7 @@
 #include <cstdlib>
 #include <time.h>
 
-#define ENEMY_SPAWN_CD 1
+#define ENEMY_SPAWN_CD 2
 
 class Game {
 	private:

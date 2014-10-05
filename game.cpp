@@ -44,6 +44,10 @@ int Game::run(){
 }
 
 void Game::update(float dt){
+	// The worst hack you ever did see
+	world.removeBody(gplayer);
+	world.bodies.push_back(gplayer);
+	
 	world.update(dt);
 	gplayer->update(dt);
 	for (int i = 0; i < enemies.size(); i++) {
@@ -62,7 +66,7 @@ void Game::update(float dt){
 	if (timeUntilNextSpawn < 0 && enemiesToSpawn > 0) {
 		enemiesToSpawn--;
 		timeUntilNextSpawn = ENEMY_SPAWN_CD;
-		if (rand() < 50) {
+		if (rand()%2 == 0) {
 			addEnemy(800, 0);
 		} else {
 			addEnemy(-100, 0);
