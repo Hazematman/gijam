@@ -1,5 +1,6 @@
 #include <sstream>
 #include "game.hpp"
+#include "plant.hpp"
 using namespace std;
 
 PhysWorld *gworld;
@@ -18,6 +19,9 @@ sf::Sound slashSnd;
 sf::Sound atkSnd;
 
 sf::Font mainFont;
+
+Plant p1;
+Plant p2;
 
 enum State {
 	MENU,
@@ -62,6 +66,10 @@ bool Game::init(){
 	menuSpr.setTexture(menuTex);
 	bgTex.loadFromFile("./data/images/background.png");
 	bgSpr.setTexture(bgTex);
+	p1.init();
+	p1.pos = sf::Vector2f(0,600-64);
+	p2.init();
+	p2.pos = sf::Vector2f(800-64,600-64);
 	return true;
 }
 
@@ -104,6 +112,8 @@ void Game::update(float dt){
 		
 		world.update(dt);
 		gplayer->update(dt);
+		p1.update(dt);
+		p2.update(dt);
 		for (int i = 0; i < enemies.size(); i++) {
 			Enemy* enemy = enemies.at(i).get();
 			if (enemy->dead) {
@@ -153,6 +163,8 @@ void Game::update(float dt){
 void Game::render(){
 	screen.draw(bgSpr);
 	gplayer->render(screen);
+	p1.render(screen);
+	p2.render(screen);
 	f.render(screen);
 	for (int i = 0; i < this->plats.size(); i++) {
 		Platform* plat = plats.at(i).get();
