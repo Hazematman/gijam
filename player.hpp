@@ -27,6 +27,7 @@ public:
 	int HP;
 	std::vector<std::unique_ptr<Attack>> aliveAttacks;
 	Player();
+	void Init();
 	void render(sf::RenderWindow &screen);
 	void update(float dt);
 	bool onHit(int damage, bool facingLeft);

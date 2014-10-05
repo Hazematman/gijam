@@ -7,6 +7,8 @@ Floor f;
 
 sf::Texture menuTex;
 sf::Sprite menuSpr;
+sf::SoundBuffer stabBuf;
+sf::Sound stabSnd;
 
 enum State {
 	MENU,
@@ -17,6 +19,8 @@ State state = MENU;
 
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
+	stabBuf.loadFromFile("./data/sounds/sword_sound.wav");
+	stabSnd.setBuffer(stabBuf);
 	f.init(600,300);
 	f.pos = sf::Vector2f(100,400);
 	world.bodies.push_back(&f);
@@ -88,6 +92,24 @@ void Game::update(float dt){
 			} else {
 				addEnemy(-100, 0);
 			}
+		}
+		if (gplayer->dead) {
+			state = MENU;
+			gplayer->Init();
+			world.bodies.push_back(gplayer);
+			for (int i = 0; i < enemies.size(); ) {	// Empty the enemies
+				Enemy* enemy = enemies.at(i).get();
+				enemy->dead = true;
+				for (int i = 0; i < enemy->aliveAttacks.size(); i++) {
+					Attack* thisAttack = enemy->aliveAttacks.at(i).get();
+					thisAttack->dead = true;
+					gworld->removeBody(thisAttack);
+				}
+				gworld->removeBody(enemy);
+				enemies.erase(enemies.begin());
+			}
+			enemiesToSpawn = 1;
+			timeUntilNextSpawn = 0;
 		}
 	}
 }

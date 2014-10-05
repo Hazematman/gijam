@@ -1,6 +1,10 @@
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
+#include <SFML/Audio.hpp>
 #include "phys.hpp"
+
+extern sf::SoundBuffer stabBuf;
+extern sf::Sound stabSnd;
 
 #define INVULN_WINDOW 0.5
 

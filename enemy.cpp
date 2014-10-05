@@ -83,6 +83,7 @@ void Enemy::update(float dt){
 		newstab->setSprite("./data/images/attacksheet.png");
 		gworld->bodies.push_back(newstab);
 		this->attackCd = STAB_CD;
+		stabSnd.play();
 	}
 	this->attackCd -= dt;
 
