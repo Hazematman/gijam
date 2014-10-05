@@ -3,17 +3,34 @@ using namespace std;
 
 PhysWorld *gworld;
 Player *gplayer;
+Floor f;
+
+sf::Texture menuTex;
+sf::Sprite menuSpr;
+
+enum State {
+	MENU,
+	GAME,
+};
+
+State state = MENU;
 
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
-	this->addPlatform(10,300);
-	this->addPlatform(100,300);
-	this->addEnemy(120,100);
+	f.init(600,300);
+	f.pos = sf::Vector2f(100,400);
+	world.bodies.push_back(&f);
 	p.setSprite("./data/images/charsheet.png");
 	world.bodies.push_back(&p);
 	world.gravity = sf::Vector2f(0,GRAVITY);
 	gworld = &world;
 	gplayer = &p;
+	enemiesToSpawn = 1;
+	timeUntilNextSpawn = 0;
+	srand (time(NULL));
+
+	menuTex.loadFromFile("./data/images/title.png");
+	menuSpr.setTexture(menuTex);
 	return true;
 }
 
@@ -29,6 +46,9 @@ int Game::run(){
 			if(e.type == sf::Event::Closed){
 				screen.close();
 			}
+			if(e.type == sf::Event::KeyPressed && state == MENU){
+				state = GAME;
+			}
 		}
 		screen.clear(sf::Color::Black);
 		update(dt);
@@ -40,22 +60,41 @@ int Game::run(){
 }
 
 void Game::update(float dt){
-	world.update(dt);
-	gplayer->update(dt);
-	for (int i = 0; i < this->enemies.size(); i++) {
-		Enemy* enemy = enemies.at(i).get();
-		if (enemy->dead) {
-			this->enemies.erase(this->enemies.begin() + i);
-			i--;
-			gworld->removeBody(enemy);
-			continue;
+	if(state != MENU){
+		// The worst hack you ever did see
+		world.removeBody(gplayer);
+		world.bodies.push_back(gplayer);
+		
+		world.update(dt);
+		gplayer->update(dt);
+		for (int i = 0; i < enemies.size(); i++) {
+			Enemy* enemy = enemies.at(i).get();
+			if (enemy->dead) {
+				// Add two enemies for every dead enemy
+				enemiesToSpawn += 2;
+				enemies.erase(enemies.begin() + i);
+				i--;
+				gworld->removeBody(enemy);
+				continue;
+			}
+			enemy->update(dt);
 		}
-		enemy->update(dt);
+		timeUntilNextSpawn -= dt;
+		if (timeUntilNextSpawn < 0 && enemiesToSpawn > 0) {
+			enemiesToSpawn--;
+			timeUntilNextSpawn = ENEMY_SPAWN_CD;
+			if (rand()%2 == 0) {
+				addEnemy(800, 0);
+			} else {
+				addEnemy(-100, 0);
+			}
+		}
 	}
 }
 
 void Game::render(){
 	gplayer->render(screen);
+	f.render(screen);
 	for (int i = 0; i < this->plats.size(); i++) {
 		Platform* plat = plats.at(i).get();
 		plat->render(screen);
@@ -64,12 +103,18 @@ void Game::render(){
 		Enemy* enemy = enemies.at(i).get();
 		enemy->render(screen);
 	}
+	for(RigidBody *r : world.bodies){
+		//r->render(screen);
+	}
+	if(state == MENU){
+		screen.draw(menuSpr);
+	}
 }
 
 void Game::addPlatform(int x, int y) {
 	this->plats.push_back(unique_ptr<Platform>(new Platform()));
 	Platform *plat = ((Platform*) this->plats.back().get());
-	plat->setSprite("./data/images/DownArrow.png");
+	plat->setSprite("./data/images/platforms.png");
 	world.bodies.push_back(plat);
 	plat->pos = sf::Vector2f(x,y);
 }

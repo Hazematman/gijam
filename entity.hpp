@@ -2,6 +2,8 @@
 #define ENTITY_HPP
 #include "phys.hpp"
 
+#define INVULN_WINDOW 0.5
+
 class Entity : public RigidBody {
 	public:
 		sf::Sprite sprite;

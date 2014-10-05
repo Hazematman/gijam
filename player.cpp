@@ -12,11 +12,13 @@ enum Anims {
 	IDLE,
 	WALK,
 	KWALK,
+	JUMP,
+	HURT
 };
 
 Player::Player(){
 	this->speed = 30;
-	this->pos = sf::Vector2f(0,200);
+	this->pos = sf::Vector2f(400,200);
 	this->tag = "player";
 	this->body = sf::Rect<float> (0,200,32,64);
 	this->isMovingLeft = false;
@@ -78,17 +80,31 @@ void Player::update(float dt){
 	} else {
 		this->jumpPowerLeft = 0;
 	}
-	if (vel.y == 0 && collided.size() > 0) {
-		this->jumpPowerLeft = MAX_JUMP;
+	for (int i = 0; i < collided.size(); i++) {
+		Entity* collidedEnt = (Entity*) collided.at(i);
+		if (collidedEnt->tag == "platform" && vel.y == 0) {
+			this->jumpPowerLeft = MAX_JUMP;
+			continue;
+		}
+		// Jump onto people, pushing them away
+		if (collidedEnt->moves && collidedEnt->pos.y+collidedEnt->body.height > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
+			collidedEnt->invulnWindow = INVULN_WINDOW;
+			collidedEnt->vel.x = (pos.x < collidedEnt->pos.x ? 250 : -250);
+			cout << "PlayerJump" << collidedEnt->vel.x << endl;
+		}
+		if (invulnWindow-dt <= 0) {
+			invulnWindow += dt;
+		}
 	}
+	invulnWindow -= dt;
 
 	// Attacks
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && this->attackCd <= 0) {
-		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD, this->facingLeft, true)));
+		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD, facingLeft, true)));
 		AttackStab *newstab = ((AttackStab*) this->aliveAttacks.back().get());
 		//newstab->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
 		newstab->tag = "attack";
-		newstab->body = sf::Rect<float> (0,200,64,64);
+		newstab->body = sf::Rect<float> (0,200,32,32);
 		newstab->setSprite("./data/images/attacksheet.png");
 		gworld->bodies.push_back(newstab);
 		this->attackCd = STAB_CD;
@@ -107,6 +123,11 @@ void Player::update(float dt){
 		thisAttack->update(dt);
 	}
 
+
+	if (invulnWindow > 0 && currentAnim != HURT) {
+		currentAnim = HURT;
+	}
+	
 	if(this->currentAnim == IDLE){
 		currentFrame += FRAMERATE*dt;	
 		currentFrame = fmod(currentFrame, 2);
@@ -120,6 +141,8 @@ void Player::update(float dt){
 	} else if(this->currentAnim == KWALK){
 		currentFrame += KFRAMERATE*dt;
 		currentFrame = fmod(currentFrame, 3);
+	} else if (currentAnim == HURT) {
+		currentFrame = 0;
 	}
 }
 
@@ -129,14 +152,22 @@ void Player::render(sf::RenderWindow &screen){
 	if(facingLeft){
 		sprite.move(32,0);
 	}
+	sf::RectangleShape rect(sf::Vector2f(body.width,body.height));
+	rect.setPosition(body.left,body.top);
+	//screen.draw(rect);
 	screen.draw(this->sprite);
 	if(this->aliveAttacks.size() > 0){
 		for (int i = 0; i < this->aliveAttacks.size(); i++) {
 			Attack* thisAttack = aliveAttacks.at(i).get();
 			thisAttack->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
-			thisAttack->body.left = this->body.left + (this->facingLeft ? 35 : -4);
-			thisAttack->body.top = this->body.top - 4;
+			thisAttack->body.left = this->body.left + (this->facingLeft ? -22 : 22);
+			thisAttack->body.top = this->body.top+12;
 			thisAttack->render(screen);
+
+			sf::RectangleShape r;
+			r.setSize(sf::Vector2f(32,32));
+			r.setPosition(thisAttack->body.left, thisAttack->body.top);
+			//screen.draw(r);
 		}
 	} else {
 		sf::Vector2f pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
@@ -152,13 +183,12 @@ void Player::render(sf::RenderWindow &screen){
 
 bool Player::onHit(int damage, bool facingLeft){
 	this->HP -= damage;
-	cout << "Player hit" << endl;
 	/*if (HP <= 0) {
 		for (int i = 0; i < this->aliveAttacks.size(); i++) {
 			Attack* thisAttack = aliveAttacks.at(i).get();
 			thisAttack->dead = true;
 		}
 	}*/
-	vel.x += (facingLeft ? -10 : 10);
+	vel.x += (facingLeft ? -70 : 70);
 	return true;
 }
