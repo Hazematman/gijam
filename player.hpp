@@ -10,7 +10,7 @@
 #include <memory>
 #include <cstdlib>
 
-#define MAX_JUMP 0.5
+#define MAX_JUMP 0.8
 #define STAB_CD 0.8
 #define MAX_WALK_SPEED 60
 

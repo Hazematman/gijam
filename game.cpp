@@ -62,6 +62,9 @@ bool Game::init(){
 	menuSpr.setTexture(menuTex);
 	bgTex.loadFromFile("./data/images/background.png");
 	bgSpr.setTexture(bgTex);
+
+	addPlatform(330,290);
+	addPlatform(450,310);
 	return true;
 }
 
@@ -125,7 +128,7 @@ void Game::update(float dt){
 			if (rand()%2 == 0) {
 				addEnemy(800, 0);
 			} else {
-				addEnemy(-100, 0);
+				addEnemy(-64, 0);
 			}
 		}
 		if (gplayer->dead) {
@@ -175,14 +178,16 @@ void Game::addPlatform(int x, int y) {
 	this->plats.push_back(unique_ptr<Platform>(new Platform()));
 	Platform *plat = ((Platform*) this->plats.back().get());
 	plat->setSprite("./data/images/platforms.png");
-	world.bodies.push_back(plat);
 	plat->pos = sf::Vector2f(x,y);
+	plat->body.left = x;
+	plat->body.top = y;
+	world.bodies.push_back(plat);
 }
 
 void Game::addEnemy(int x, int y) {
 	this->enemies.push_back(unique_ptr<Enemy>(new Enemy()));
 	Enemy *enemy = ((Enemy*) this->enemies.back().get());
 	enemy->setSprite("./data/images/charsheet.png");
-	world.bodies.push_back(enemy);
 	enemy->pos = sf::Vector2f(x,y);
+	world.bodies.push_back(enemy);
 }

@@ -82,7 +82,7 @@ void Player::update(float dt){
 
 	// Vertical Movement
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && this->jumpPowerLeft > 0) {
-		vel += sf::Vector2f(0.,-GRAVITY*this->jumpPowerLeft/MAX_JUMP*dt*40);
+		vel += sf::Vector2f(0.,-GRAVITY*this->jumpPowerLeft/MAX_JUMP*dt*13);
 		this->jumpPowerLeft -= dt*10;
 	} else {
 		this->jumpPowerLeft = 0;
@@ -208,6 +208,6 @@ bool Player::onHit(int damage, bool facingLeft){
 			thisAttack->dead = true;
 		}
 	}*/
-	vel.x += (facingLeft ? -70 : 70);
+	vel.x += (facingLeft ? -150 : 150);
 	return true;
 }
