@@ -106,14 +106,22 @@ void Player::update(float dt){
 	invulnWindow -= dt;
 
 	// Attacks
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && this->attackCd <= 0) {
-		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD, facingLeft, true)));
-		AttackStab *newstab = ((AttackStab*) this->aliveAttacks.back().get());
-		//newstab->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
-		newstab->tag = "attack";
-		newstab->body = sf::Rect<float> (0,200,32,32);
-		newstab->setSprite("./data/images/attacksheet.png");
-		gworld->bodies.push_back(newstab);
+	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || sf::Keyboard::isKeyPressed(sf::Keyboard::X) || sf::Keyboard::isKeyPressed(sf::Keyboard::C)) && this->attackCd <= 0) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+			aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD, facingLeft, true)));
+		} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+			aliveAttacks.push_back(unique_ptr<Attack>(new AttackSlash(10, SLASH_CD, facingLeft, true)));
+		} else {
+			aliveAttacks.push_back(unique_ptr<Attack>(new AttackSwipe(10, SWIPE_CD, facingLeft, true)));
+		}
+		
+		Attack *newatk = (this->aliveAttacks.back().get());
+		//newatk->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
+		newatk->tag = "attack";
+		newatk->parent = this;
+		newatk->body = sf::Rect<float> (0,200,32,32);
+		newatk->setSprite("./data/images/attacksheet.png");
+		gworld->bodies.push_back(newatk);
 		this->attackCd = STAB_CD;
 		int soundToPlay = rand() % 3;
 		if (soundToPlay == 0) {
@@ -209,5 +217,8 @@ bool Player::onHit(int damage, bool facingLeft){
 		}
 	}*/
 	vel.x += (facingLeft ? -150 : 150);
+	if (invulnWindow < 0) {
+		invulnWindow = 0.5;
+	}
 	return true;
 }

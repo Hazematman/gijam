@@ -50,14 +50,18 @@ void PhysWorld::update(float dt){
 			b1->body.top = b1->pos.y;
 		}
 		for(RigidBody* b2 : bodies){
-			if (b2->tag == "attack") {
+			if (b2->tag == "attack" && b1->tag != "attack") {
 				continue;
 			}
 			if(b1 != b2 && b1->body.intersects(b2->body)){
-				if (b1->tag == b2->tag) {
+				if (b1->tag == "enemy" && b2->tag == "enemy") {
 					continue;
 				}
 				b1->collided.push_back(b2);
+				if (b1->tag == "attack" && b2->tag == "attack") {
+					cout << "attack-attack" << endl;
+					continue;
+				}
 				if ((b1->invulnWindow <= 0 && b2->invulnWindow <= 0) || b2->tag == "platform") {
 					b1->pos += b1->vel*-dt;
 					b1->body.left = b1->pos.x;
