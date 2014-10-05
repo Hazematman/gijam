@@ -6,6 +6,8 @@ Player *gplayer;
 Floor f;
 
 sf::Texture menuTex;
+sf::Texture bgTex;
+sf::Sprite bgSpr;
 sf::Sprite menuSpr;
 sf::SoundBuffer stabBuf;
 sf::Sound stabSnd;
@@ -35,6 +37,8 @@ bool Game::init(){
 
 	menuTex.loadFromFile("./data/images/title.png");
 	menuSpr.setTexture(menuTex);
+	bgTex.loadFromFile("./data/images/background.png");
+	bgSpr.setTexture(bgTex);
 	return true;
 }
 
@@ -115,6 +119,7 @@ void Game::update(float dt){
 }
 
 void Game::render(){
+	screen.draw(bgSpr);
 	gplayer->render(screen);
 	f.render(screen);
 	for (int i = 0; i < this->plats.size(); i++) {
