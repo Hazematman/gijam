@@ -38,7 +38,7 @@ string intToStr(int num){
 }
 
 bool Game::init(){
-	screen.create(sf::VideoMode(800,600), "Game");
+	screen.create(sf::VideoMode(800,600), "Stab Beats Slash Beats Swipe");
 	if (stabBuf.loadFromFile("./data/sounds/sword_sound.wav")
 		&& slashBuf.loadFromFile("./data/sounds/melee_sound.wav")
 		&& atkBuf.loadFromFile("./data/sounds/animal_melee_sound.wav")) {
