@@ -20,6 +20,7 @@ void Platform::render(sf::RenderWindow &screen){
 }
 
 void Floor::init(int xsize, int ysize){
+	this->setSprite("./data/images/platform.png");
 	this->moves = false;
 	this->tag = "platform";
 	rect.setSize(sf::Vector2f(xsize, ysize));
@@ -30,6 +31,8 @@ void Floor::update(float dt){
 }
 
 void Floor::render(sf::RenderWindow &screen){
-	rect.setPosition(pos);
-	screen.draw(rect);
+	//rect.setPosition(pos);
+	//screen.draw(rect);
+	sprite.setPosition(pos);
+	screen.draw(this->sprite);
 }
