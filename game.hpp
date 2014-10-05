@@ -21,6 +21,8 @@ class Game {
 		std::vector<std::unique_ptr<Enemy>> enemies;
 		float timeUntilNextSpawn;
 		int enemiesToSpawn;
+		sf::Text scoreText;
+		int score;
 	public:
 		bool init();
 		int run();
@@ -28,6 +30,7 @@ class Game {
 		void render();
 		void addPlatform(int x, int y);
 		void addEnemy(int x, int y);
+		void redrawScore();
 };
 
 #endif
