@@ -5,6 +5,16 @@ PhysWorld *gworld;
 Player *gplayer;
 Floor f;
 
+sf::Texture menuTex;
+sf::Sprite menuSpr;
+
+enum State {
+	MENU,
+	GAME,
+};
+
+State state = MENU;
+
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
 	f.init(600,300);
@@ -18,6 +28,9 @@ bool Game::init(){
 	enemiesToSpawn = 1;
 	timeUntilNextSpawn = 0;
 	srand (time(NULL));
+
+	menuTex.loadFromFile("./data/images/title.png");
+	menuSpr.setTexture(menuTex);
 	return true;
 }
 
@@ -33,6 +46,9 @@ int Game::run(){
 			if(e.type == sf::Event::Closed){
 				screen.close();
 			}
+			if(e.type == sf::Event::KeyPressed && state == MENU){
+				state = GAME;
+			}
 		}
 		screen.clear(sf::Color::Black);
 		update(dt);
@@ -44,32 +60,34 @@ int Game::run(){
 }
 
 void Game::update(float dt){
-	// The worst hack you ever did see
-	world.removeBody(gplayer);
-	world.bodies.push_back(gplayer);
-	
-	world.update(dt);
-	gplayer->update(dt);
-	for (int i = 0; i < enemies.size(); i++) {
-		Enemy* enemy = enemies.at(i).get();
-		if (enemy->dead) {
-			// Add two enemies for every dead enemy
-			enemiesToSpawn += 2;
-			enemies.erase(enemies.begin() + i);
-			i--;
-			gworld->removeBody(enemy);
-			continue;
+	if(state != MENU){
+		// The worst hack you ever did see
+		world.removeBody(gplayer);
+		world.bodies.push_back(gplayer);
+		
+		world.update(dt);
+		gplayer->update(dt);
+		for (int i = 0; i < enemies.size(); i++) {
+			Enemy* enemy = enemies.at(i).get();
+			if (enemy->dead) {
+				// Add two enemies for every dead enemy
+				enemiesToSpawn += 2;
+				enemies.erase(enemies.begin() + i);
+				i--;
+				gworld->removeBody(enemy);
+				continue;
+			}
+			enemy->update(dt);
 		}
-		enemy->update(dt);
-	}
-	timeUntilNextSpawn -= dt;
-	if (timeUntilNextSpawn < 0 && enemiesToSpawn > 0) {
-		enemiesToSpawn--;
-		timeUntilNextSpawn = ENEMY_SPAWN_CD;
-		if (rand()%2 == 0) {
-			addEnemy(800, 0);
-		} else {
-			addEnemy(-100, 0);
+		timeUntilNextSpawn -= dt;
+		if (timeUntilNextSpawn < 0 && enemiesToSpawn > 0) {
+			enemiesToSpawn--;
+			timeUntilNextSpawn = ENEMY_SPAWN_CD;
+			if (rand()%2 == 0) {
+				addEnemy(800, 0);
+			} else {
+				addEnemy(-100, 0);
+			}
 		}
 	}
 }
@@ -87,6 +105,9 @@ void Game::render(){
 	}
 	for(RigidBody *r : world.bodies){
 		//r->render(screen);
+	}
+	if(state == MENU){
+		screen.draw(menuSpr);
 	}
 }
 
