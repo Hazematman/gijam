@@ -7,7 +7,6 @@ Floor f;
 
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
-	this->addEnemy(520,100);
 	f.init(600,300);
 	f.pos = sf::Vector2f(100,400);
 	world.bodies.push_back(&f);
@@ -16,6 +15,9 @@ bool Game::init(){
 	world.gravity = sf::Vector2f(0,GRAVITY);
 	gworld = &world;
 	gplayer = &p;
+	enemiesToSpawn = 1;
+	timeUntilNextSpawn = 0;
+	srand (time(NULL));
 	return true;
 }
 
@@ -48,14 +50,23 @@ void Game::update(float dt){
 		Enemy* enemy = enemies.at(i).get();
 		if (enemy->dead) {
 			// Add two enemies for every dead enemy
-			addEnemy(120+70*enemies.size(),100);
-			addEnemy(120+70*enemies.size(),100);
+			enemiesToSpawn += 2;
 			enemies.erase(enemies.begin() + i);
 			i--;
 			gworld->removeBody(enemy);
 			continue;
 		}
 		enemy->update(dt);
+	}
+	timeUntilNextSpawn -= dt;
+	if (timeUntilNextSpawn < 0 && enemiesToSpawn > 0) {
+		enemiesToSpawn--;
+		timeUntilNextSpawn = ENEMY_SPAWN_CD;
+		if (rand() < 50) {
+			addEnemy(800, 0);
+		} else {
+			addEnemy(-100, 0);
+		}
 	}
 }
 

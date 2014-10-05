@@ -7,6 +7,10 @@
 #include "platform.hpp"
 #include "enemy.hpp"
 #include <memory>
+#include <cstdlib>
+#include <time.h>
+
+#define ENEMY_SPAWN_CD 1
 
 class Game {
 	private:
@@ -15,6 +19,8 @@ class Game {
 		Player p;
 		std::vector<std::unique_ptr<Platform>> plats;
 		std::vector<std::unique_ptr<Enemy>> enemies;
+		float timeUntilNextSpawn;
+		int enemiesToSpawn;
 	public:
 		bool init();
 		int run();
