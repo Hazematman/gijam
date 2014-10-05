@@ -17,7 +17,6 @@ class Player : public Entity {
 public:
 	sf::Texture sTex;
 	sf::Sprite sSpr;
-	sf::Sound snd;
 	float speed;
 	bool isMovingLeft, isMovingRight;
 	bool facingLeft;

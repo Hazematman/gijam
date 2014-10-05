@@ -4,6 +4,7 @@
 #include "phys.hpp"
 
 extern sf::SoundBuffer stabBuf;
+extern sf::Sound stabSnd;
 
 #define INVULN_WINDOW 0.5
 

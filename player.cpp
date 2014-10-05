@@ -40,7 +40,6 @@ void Player::Init(){
 	this->sSpr.setTexture(this->sTex);
 	this->sSpr.setScale(2,2);
 	this->sSpr.setTextureRect(sf::IntRect(0,0,32,32));
-	this->snd.setBuffer(stabBuf);
 }
 
 void Player::update(float dt){
@@ -114,7 +113,7 @@ void Player::update(float dt){
 		newstab->setSprite("./data/images/attacksheet.png");
 		gworld->bodies.push_back(newstab);
 		this->attackCd = STAB_CD;
-		snd.play();
+		stabSnd.play();
 	}
 	this->attackCd -= dt;
 
