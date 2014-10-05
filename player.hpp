@@ -8,6 +8,7 @@
 #include "attack_stab.hpp"
 #include <cmath>
 #include <memory>
+#include <cstdlib>
 
 #define MAX_JUMP 0.5
 #define STAB_CD 0.8

@@ -10,7 +10,11 @@ sf::Texture bgTex;
 sf::Sprite bgSpr;
 sf::Sprite menuSpr;
 sf::SoundBuffer stabBuf;
+sf::SoundBuffer slashBuf;
+sf::SoundBuffer atkBuf;
 sf::Sound stabSnd;
+sf::Sound slashSnd;
+sf::Sound atkSnd;
 
 enum State {
 	MENU,
@@ -21,8 +25,14 @@ State state = MENU;
 
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
-	stabBuf.loadFromFile("./data/sounds/sword_sound.wav");
+	if (stabBuf.loadFromFile("./data/sounds/sword_sound.wav")
+		&& slashBuf.loadFromFile("./data/sounds/melee_sound.wav")
+		&& atkBuf.loadFromFile("./data/sounds/animal_melee_sound.wav")) {
+		cout << "Sound loaded successfully" << endl;
+	}
 	stabSnd.setBuffer(stabBuf);
+	slashSnd.setBuffer(slashBuf);
+	atkSnd.setBuffer(atkBuf);
 	f.init(600,300);
 	f.pos = sf::Vector2f(100,400);
 	world.bodies.push_back(&f);

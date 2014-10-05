@@ -9,6 +9,7 @@
 #include "attack_stab.hpp"
 #include <cmath>
 #include <memory>
+#include <cstdlib>
 
 class Enemy : public Entity {
 public:
