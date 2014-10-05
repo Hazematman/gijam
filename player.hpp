@@ -6,12 +6,16 @@
 #include "entity.hpp"
 #include "attack.hpp"
 #include "attack_stab.hpp"
+#include "attack_slash.hpp"
+#include "attack_swipe.hpp"
 #include <cmath>
 #include <memory>
 #include <cstdlib>
 
-#define MAX_JUMP 0.5
+#define MAX_JUMP 0.8
 #define STAB_CD 0.8
+#define SLASH_CD 0.8
+#define SWIPE_CD 0.8
 #define MAX_WALK_SPEED 60
 
 class Player : public Entity {

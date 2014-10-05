@@ -9,12 +9,6 @@ class AttackStab : public Attack {
 public:
 	AttackStab();
 	AttackStab(int Damage, float lifetime, bool facingLeft, bool fromPlayer);
-	bool facingLeft;
-	bool fromPlayer;
-	int damage;
-	float lifetime;
-	float timeToNextFrame;
-	void update(float dt);
 };
 
 #endif

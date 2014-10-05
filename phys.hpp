@@ -4,7 +4,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#define GRAVITY 140
+#define GRAVITY 1000
 #define DRAG 0.9
 
 class RigidBody {

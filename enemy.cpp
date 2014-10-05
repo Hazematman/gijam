@@ -32,7 +32,7 @@ Enemy::Enemy(){
 
 void Enemy::update(float dt){
 	// Try to move towards the player, if we are too far
-	if (abs((gplayer->pos.x+gplayer->body.width/2) - (pos.x+body.width/2)) >= 80 && invulnWindow <= 0) {
+	if (abs((gplayer->pos.x+gplayer->body.width/2) - (pos.x+body.width/2)) >= 60 && invulnWindow <= 0) {
 		if (gplayer->pos.x < this->pos.x) {
 			isMovingLeft = true;
 			currentAnim = WALK;
@@ -79,6 +79,7 @@ void Enemy::update(float dt){
 		AttackStab *newstab = ((AttackStab*) this->aliveAttacks.back().get());
 		//newstab->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
 		newstab->tag = "attack";
+		newstab->parent = this;
 		newstab->body = sf::Rect<float> (0,200,64,64);
 		newstab->setSprite("./data/images/attacksheet.png");
 		gworld->bodies.push_back(newstab);
@@ -101,7 +102,7 @@ void Enemy::update(float dt){
 			continue;
 		}
 		// Jump onto people, pushing them away
-		if (collidedEnt->moves && collidedEnt->pos.y+collidedEnt->body.height > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
+		if (collidedEnt->moves && collidedEnt->pos.y > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
 			collidedEnt->invulnWindow = INVULN_WINDOW;
 			collidedEnt->vel.x = (pos.x < collidedEnt->pos.x ? 20 : -20);
 			cout << "EnemyJump" << vel.x << endl;
@@ -140,7 +141,7 @@ void Enemy::update(float dt){
 	}
 
 	// Fall off? DED
-	if (pos.y > 600) {
+	if (pos.y > 486) {
 		dead = true;
 		for (int i = 0; i < this->aliveAttacks.size(); i++) {
 			Attack* thisAttack = aliveAttacks.at(i).get();
@@ -201,6 +202,6 @@ bool Enemy::onHit(int damage, bool facingLeft){
 		gworld->removeBody(thisAttack);
 	}
 	gworld->removeBody(this);*/
-	vel.x = (facingLeft ? -70 : 70);
+	vel.x = (facingLeft ? -150 : 150);
 	return true;
 };
