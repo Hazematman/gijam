@@ -1,3 +1,4 @@
+#include <sstream>
 #include "game.hpp"
 using namespace std;
 
@@ -16,12 +17,20 @@ sf::Sound stabSnd;
 sf::Sound slashSnd;
 sf::Sound atkSnd;
 
+sf::Font mainFont;
+
 enum State {
 	MENU,
 	GAME,
 };
 
 State state = MENU;
+
+string intToStr(int num){
+	stringstream ss;
+	ss << num;
+	return ss.str();
+}
 
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
@@ -33,6 +42,10 @@ bool Game::init(){
 	stabSnd.setBuffer(stabBuf);
 	slashSnd.setBuffer(slashBuf);
 	atkSnd.setBuffer(atkBuf);
+	mainFont.loadFromFile("./data/fonts/PressStart2P.ttf");
+	scoreText.setFont(mainFont);
+	score = 0;
+	redrawScore();
 	f.init(600,300);
 	f.pos = sf::Vector2f(100,400);
 	world.bodies.push_back(&f);
@@ -65,6 +78,7 @@ int Game::run(){
 				screen.close();
 			}
 			if(e.type == sf::Event::KeyPressed && state == MENU){
+				redrawScore();
 				state = GAME;
 			}
 		}
@@ -75,6 +89,11 @@ int Game::run(){
 		dt = dtTimer.restart().asSeconds();
 	}
 	return EXIT_SUCCESS;
+}
+
+void Game::redrawScore() {
+	scoreText.setString("Score: " + intToStr(score));
+	scoreText.setPosition(400-(int) (scoreText.getGlobalBounds().width/2),50);
 }
 
 void Game::update(float dt){
@@ -88,6 +107,8 @@ void Game::update(float dt){
 		for (int i = 0; i < enemies.size(); i++) {
 			Enemy* enemy = enemies.at(i).get();
 			if (enemy->dead) {
+				score++;
+				redrawScore();
 				// Add two enemies for every dead enemy
 				enemiesToSpawn += 2;
 				enemies.erase(enemies.begin() + i);
@@ -124,6 +145,7 @@ void Game::update(float dt){
 			}
 			enemiesToSpawn = 1;
 			timeUntilNextSpawn = 0;
+			score = 0;
 		}
 	}
 }
@@ -146,6 +168,7 @@ void Game::render(){
 	if(state == MENU){
 		screen.draw(menuSpr);
 	}
+	screen.draw(scoreText);
 }
 
 void Game::addPlatform(int x, int y) {
