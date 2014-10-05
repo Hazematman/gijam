@@ -66,22 +66,24 @@ void Enemy::update(float dt){
 	} else if (this->attackCd <= 0) {
 		// Cancel current movement
 		if (isMovingLeft) {
+			currentAnim = IDLE;
 			isMovingLeft = false;
 			if(vel.x != 0 && invulnWindow <= 0)
 				vel -= sf::Vector2f(-speed,0.);
 		}
 		if (isMovingRight) {
+			currentAnim = IDLE;
 			isMovingRight = false;
 			if(vel.x != 0 && invulnWindow <= 0)
 				vel -= sf::Vector2f(+speed,0.);
 		}
 		// We are in attacking range
 		if (attackToUse == 0) {
-			this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD-0.3, facingLeft, false)));
+			this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD-0.4, facingLeft, false)));
 		} else if (attackToUse == 1) {
-			this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackSlash(10, STAB_CD-0.3, facingLeft, false)));
+			this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackSlash(10, STAB_CD-0.2, facingLeft, false)));
 		} else {
-			this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackSwipe(10, STAB_CD-0.3, facingLeft, false)));
+			this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackSwipe(10, STAB_CD-0.2, facingLeft, false)));
 		}
 		Attack *newstab = this->aliveAttacks.back().get();
 		//newstab->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
