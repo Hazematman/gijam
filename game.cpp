@@ -6,9 +6,15 @@ Player *gplayer;
 Floor f;
 
 sf::Texture menuTex;
+sf::Texture bgTex;
+sf::Sprite bgSpr;
 sf::Sprite menuSpr;
 sf::SoundBuffer stabBuf;
+sf::SoundBuffer slashBuf;
+sf::SoundBuffer atkBuf;
 sf::Sound stabSnd;
+sf::Sound slashSnd;
+sf::Sound atkSnd;
 
 enum State {
 	MENU,
@@ -19,8 +25,14 @@ State state = MENU;
 
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
-	stabBuf.loadFromFile("./data/sounds/sword_sound.wav");
+	if (stabBuf.loadFromFile("./data/sounds/sword_sound.wav")
+		&& slashBuf.loadFromFile("./data/sounds/melee_sound.wav")
+		&& atkBuf.loadFromFile("./data/sounds/animal_melee_sound.wav")) {
+		cout << "Sound loaded successfully" << endl;
+	}
 	stabSnd.setBuffer(stabBuf);
+	slashSnd.setBuffer(slashBuf);
+	atkSnd.setBuffer(atkBuf);
 	f.init(600,300);
 	f.pos = sf::Vector2f(100,400);
 	world.bodies.push_back(&f);
@@ -35,6 +47,8 @@ bool Game::init(){
 
 	menuTex.loadFromFile("./data/images/title.png");
 	menuSpr.setTexture(menuTex);
+	bgTex.loadFromFile("./data/images/background.png");
+	bgSpr.setTexture(bgTex);
 	return true;
 }
 
@@ -115,6 +129,7 @@ void Game::update(float dt){
 }
 
 void Game::render(){
+	screen.draw(bgSpr);
 	gplayer->render(screen);
 	f.render(screen);
 	for (int i = 0; i < this->plats.size(); i++) {

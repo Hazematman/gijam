@@ -83,7 +83,14 @@ void Enemy::update(float dt){
 		newstab->setSprite("./data/images/attacksheet.png");
 		gworld->bodies.push_back(newstab);
 		this->attackCd = STAB_CD;
-		stabSnd.play();
+		int soundToPlay = rand() % 3;
+		if (soundToPlay == 0) {
+			stabSnd.play();
+		} else if (soundToPlay == 1) {
+			slashSnd.play();
+		} else {
+			atkSnd.play();
+		}
 	}
 	this->attackCd -= dt;
 
@@ -194,6 +201,6 @@ bool Enemy::onHit(int damage, bool facingLeft){
 		gworld->removeBody(thisAttack);
 	}
 	gworld->removeBody(this);*/
-	vel.x += (facingLeft ? -70 : 70);
+	vel.x = (facingLeft ? -70 : 70);
 	return true;
 };

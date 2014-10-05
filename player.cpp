@@ -32,6 +32,8 @@ void Player::Init(){
 	this->sprite.setScale(2,2);
 	this->attackCd = 0;
 	this->HP = 40;
+	this->vel.x = 0;
+	this->vel.y = 30;
 
 	this->currentFrame = 0;
 	this->currentAnim = 0;
@@ -113,7 +115,14 @@ void Player::update(float dt){
 		newstab->setSprite("./data/images/attacksheet.png");
 		gworld->bodies.push_back(newstab);
 		this->attackCd = STAB_CD;
-		stabSnd.play();
+		int soundToPlay = rand() % 3;
+		if (soundToPlay == 0) {
+			stabSnd.play();
+		} else if (soundToPlay == 1) {
+			slashSnd.play();
+		} else {
+			atkSnd.play();
+		}
 	}
 	this->attackCd -= dt;
 
