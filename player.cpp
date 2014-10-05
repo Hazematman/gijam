@@ -17,6 +17,11 @@ enum Anims {
 };
 
 Player::Player(){
+	Init();
+}
+
+void Player::Init(){
+	this->dead = false;
 	this->speed = 30;
 	this->pos = sf::Vector2f(400,200);
 	this->tag = "player";
@@ -145,6 +150,10 @@ void Player::update(float dt){
 		currentFrame = fmod(currentFrame, 3);
 	} else if (currentAnim == HURT) {
 		currentFrame = 0;
+	}
+
+	if (pos.y > 600) {
+		dead = true;
 	}
 }
 
