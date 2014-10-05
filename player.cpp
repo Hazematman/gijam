@@ -78,26 +78,24 @@ void Player::update(float dt){
 	} else {
 		this->jumpPowerLeft = 0;
 	}
-	if (vel.y == 0 && collided.size() > 0) {
-		for (int i = 0; i < collided.size(); i++) {
-			Entity* collidedEnt = (Entity*) collided.at(i);
-			if (collidedEnt->tag == "platform") {
-				this->jumpPowerLeft = MAX_JUMP;
-				break;
-			}
-			// Jump onto people, pushing them away
-			if (collidedEnt->moves && collidedEnt->pos.y+collidedEnt->body.height > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
-				collidedEnt->invulnWindow = INVULN_WINDOW;
-				collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? 50 : -50);
-				cout << "PlayerJump" << endl;
-			}
+	for (int i = 0; i < collided.size(); i++) {
+		Entity* collidedEnt = (Entity*) collided.at(i);
+		if (collidedEnt->tag == "platform" && vel.y == 0) {
+			this->jumpPowerLeft = MAX_JUMP;
+			break;
+		}
+		// Jump onto people, pushing them away
+		if (vel.y > 0 && collidedEnt->moves && collidedEnt->pos.y+collidedEnt->body.height > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
+			collidedEnt->invulnWindow = INVULN_WINDOW;
+			collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? 50 : -50);
+			cout << "PlayerJump" << endl;
 		}
 	}
 	invulnWindow -= dt;
 
 	// Attacks
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && this->attackCd <= 0) {
-		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD, this->facingLeft, true)));
+		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD, facingLeft, true)));
 		AttackStab *newstab = ((AttackStab*) this->aliveAttacks.back().get());
 		//newstab->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
 		newstab->tag = "attack";

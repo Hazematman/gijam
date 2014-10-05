@@ -74,7 +74,7 @@ void Enemy::update(float dt){
 				vel -= sf::Vector2f(+speed,0.);
 		}
 		// We are in attacking range
-		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD, facingLeft, false)));
+		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD-0.3, facingLeft, false)));
 		AttackStab *newstab = ((AttackStab*) this->aliveAttacks.back().get());
 		//newstab->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
 		newstab->tag = "attack";

@@ -11,6 +11,7 @@ AttackStab::AttackStab() {
 	this->moves = false;
 	this->fromPlayer = false;
 	this->timeToNextFrame = STAB_FRAME_LENGTH;
+	this->vel = sf::Vector2f(0,0);
 }
 
 AttackStab::AttackStab(int damage, float lifetime, bool facingLeft, bool fromPlayer) {
@@ -27,6 +28,7 @@ AttackStab::AttackStab(int damage, float lifetime, bool facingLeft, bool fromPla
 		this->framePos = 5;
 		this->timeToNextFrame = 0.5;
 	}
+	this->vel = sf::Vector2f(0,0);
 }
 
 void AttackStab::update(float dt) {
@@ -35,7 +37,7 @@ void AttackStab::update(float dt) {
 			Entity* collidedEnt = (Entity*) collidedRB;
 			if (this->fromPlayer && collidedEnt->tag != "player") collidedEnt->onHit(damage, facingLeft);
 			if (!(this->fromPlayer) && collidedEnt->tag == "player") collidedEnt->onHit(damage, facingLeft);
-			cout << collidedEnt->tag << endl;
+			//if (facingLeft) cout << collidedEnt->tag << endl;
 		}
 	}
 	this->timeToNextFrame -= dt;
