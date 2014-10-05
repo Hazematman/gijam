@@ -4,6 +4,7 @@ using namespace std;
 enum anims{
 	IDLE,
 	WALK,
+	HURT
 };
 
 #define FRAMERATE 4
@@ -115,12 +116,19 @@ void Enemy::update(float dt){
 		thisAttack->update(dt);
 	}
 
-	if(this->currentAnim == IDLE){
+	if (invulnWindow > 0 && currentAnim != HURT) {
+		currentAnim = HURT;
+		currentFrame = 0;
+	}
+
+	if (this->currentAnim == IDLE){
 		currentFrame += FRAMERATE*dt;	
 		currentFrame = fmod(currentFrame, 2);
 	} else if(this->currentAnim == WALK){
 		currentFrame += WFRAMERATE*dt;
 		currentFrame = fmod(currentFrame, 6);
+	} else if(this->currentAnim == HURT){
+		currentFrame = 0;
 	}
 
 	// Fall off? DED
@@ -138,7 +146,7 @@ void Enemy::update(float dt){
 void Enemy::render(sf::RenderWindow &screen){
 	if (!dead) {
 		//cout << currentFrame << " " << currentAnim << endl;
-		sprite.setTextureRect(sf::IntRect((int)currentFrame*32,(3+this->currentAnim)*32,32,32));
+		sprite.setTextureRect(sf::IntRect((int)currentFrame*32,(5+this->currentAnim)*32,32,32));
 		sprite.setPosition(pos);
 		if(facingLeft){
 			sprite.move(64,0);

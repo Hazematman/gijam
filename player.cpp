@@ -12,6 +12,8 @@ enum Anims {
 	IDLE,
 	WALK,
 	KWALK,
+	JUMP,
+	HURT
 };
 
 Player::Player(){
@@ -121,6 +123,11 @@ void Player::update(float dt){
 		thisAttack->update(dt);
 	}
 
+
+	if (invulnWindow > 0 && currentAnim != HURT) {
+		currentAnim = HURT;
+	}
+	
 	if(this->currentAnim == IDLE){
 		currentFrame += FRAMERATE*dt;	
 		currentFrame = fmod(currentFrame, 2);
@@ -134,6 +141,8 @@ void Player::update(float dt){
 	} else if(this->currentAnim == KWALK){
 		currentFrame += KFRAMERATE*dt;
 		currentFrame = fmod(currentFrame, 3);
+	} else if (currentAnim == HURT) {
+		currentFrame = 0;
 	}
 }
 
