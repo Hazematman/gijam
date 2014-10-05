@@ -41,12 +41,16 @@ bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Stab Beats Slash Beats Swipe");
 	if (stabBuf.loadFromFile("./data/sounds/sword_sound.wav")
 		&& slashBuf.loadFromFile("./data/sounds/melee_sound.wav")
-		&& atkBuf.loadFromFile("./data/sounds/animal_melee_sound.wav")) {
+		&& atkBuf.loadFromFile("./data/sounds/animal_melee_sound.wav")
+		&& enemyDeathFXBuf.loadFromFile("./data/sounds/enemy_death_sfx.wav")
+		&& playerDeathFXBuf.loadFromFile("./data/sounds/player_death_sfx.wav")) {
 		cout << "Sound loaded successfully" << endl;
 	}
 	stabSnd.setBuffer(stabBuf);
 	slashSnd.setBuffer(slashBuf);
 	atkSnd.setBuffer(atkBuf);
+	enemyDeathFX.setBuffer(enemyDeathFXBuf);
+	playerDeathFX.setBuffer(playerDeathFXBuf);
 	mainFont.loadFromFile("./data/fonts/PressStart2P.ttf");
 	scoreText.setFont(mainFont);
 	score = 0;
@@ -61,6 +65,7 @@ bool Game::init(){
 	gplayer = &p;
 	enemiesToSpawn = 1;
 	timeUntilNextSpawn = 0;
+	shakeIntensity = 0;
 	srand (time(NULL));
 
 	menuTex.loadFromFile("./data/images/title.png");
@@ -123,6 +128,8 @@ void Game::update(float dt){
 		for (int i = 0; i < enemies.size(); i++) {
 			Enemy* enemy = enemies.at(i).get();
 			if (enemy->dead) {
+				shakeIntensity = MAX_SHAKE_INTENSITY/2;
+				enemyDeathFX.play();
 				score++;
 				redrawScore();
 				// Add two enemies for every dead enemy
@@ -149,6 +156,8 @@ void Game::update(float dt){
 		}
 		if (gplayer->dead) {
 			state = MENU;
+			playerDeathFX.play();
+			shakeIntensity = MAX_SHAKE_INTENSITY;
 			gplayer->Init();
 			world.bodies.push_back(gplayer);
 			for (int i = 0; i < enemies.size(); ) {	// Empty the enemies
@@ -166,6 +175,17 @@ void Game::update(float dt){
 			timeUntilNextSpawn = 0;
 			score = 0;
 		}
+	}
+	if (shakeIntensity > 0) {
+		sf::View view = screen.getView();
+		view.setCenter(fmod(rand(), shakeIntensity) - shakeIntensity/2+view.getSize().x/2, fmod(rand(), shakeIntensity) - shakeIntensity/2+view.getSize().y/2);
+		shakeIntensity -= MAX_SHAKE_INTENSITY*dt*2;
+		screen.setView(view);
+	} else {
+		// Should be unecessary to do this
+		sf::View view = screen.getView();
+		view.setCenter(+view.getSize().x/2, +view.getSize().y/2);
+		screen.setView(view);
 	}
 }
 

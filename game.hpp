@@ -11,6 +11,7 @@
 #include <time.h>
 
 #define ENEMY_SPAWN_CD 2
+#define MAX_SHAKE_INTENSITY 10
 
 class Game {
 	private:
@@ -23,6 +24,11 @@ class Game {
 		int enemiesToSpawn;
 		sf::Text scoreText;
 		int score;
+		float shakeIntensity;
+		sf::SoundBuffer enemyDeathFXBuf;
+		sf::SoundBuffer playerDeathFXBuf;
+		sf::Sound enemyDeathFX;
+		sf::Sound playerDeathFX;
 	public:
 		bool init();
 		int run();
