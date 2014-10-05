@@ -22,6 +22,7 @@ sf::Font mainFont;
 
 Plant p1;
 Plant p2;
+Plant p3;
 
 enum State {
 	MENU,
@@ -70,6 +71,8 @@ bool Game::init(){
 	p1.pos = sf::Vector2f(0,600-64);
 	p2.init();
 	p2.pos = sf::Vector2f(800-64,600-64);
+	p3.init();
+	p3.pos = sf::Vector2f(800-128, 600-64);
 	addPlatform(330,290);
 	addPlatform(450,310);
 	return true;
@@ -116,6 +119,7 @@ void Game::update(float dt){
 		gplayer->update(dt);
 		p1.update(dt);
 		p2.update(dt);
+		p3.update(dt);
 		for (int i = 0; i < enemies.size(); i++) {
 			Enemy* enemy = enemies.at(i).get();
 			if (enemy->dead) {
@@ -170,6 +174,7 @@ void Game::render(){
 	gplayer->render(screen);
 	p1.render(screen);
 	p2.render(screen);
+	p3.render(screen);
 	f.render(screen);
 	for (int i = 0; i < this->plats.size(); i++) {
 		Platform* plat = plats.at(i).get();
