@@ -182,6 +182,7 @@ bool Enemy::onHit(int damage, bool facingLeft){
 		gworld->removeBody(thisAttack);
 	}
 	gworld->removeBody(this);*/
+	cout << "IM HIT" << endl;
 	vel.x += (facingLeft ? -70 : 70);
 	return true;
 };

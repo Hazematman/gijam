@@ -41,9 +41,9 @@ void PhysWorld::update(float dt){
 			b1->vel += gravity*dt;
 			b1->vel.x *= DRAG*(1-dt);
 			b1->pos += b1->vel*dt;
+			b1->body.left = b1->pos.x;
+			b1->body.top = b1->pos.y;
 		}
-		b1->body.left = b1->pos.x;
-		b1->body.top = b1->pos.y;
 		for(RigidBody* b2 : bodies){
 			if (b2->tag == "attack") {
 				continue;
