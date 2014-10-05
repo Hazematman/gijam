@@ -59,7 +59,6 @@ void PhysWorld::update(float dt){
 				}
 				b1->collided.push_back(b2);
 				if (b1->tag == "attack" && b2->tag == "attack") {
-					cout << "attack-attack" << endl;
 					continue;
 				}
 				if ((b1->invulnWindow <= 0 && b2->invulnWindow <= 0) || b2->tag == "platform") {

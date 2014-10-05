@@ -28,6 +28,7 @@ Enemy::Enemy(){
 	this->sSpr.setTextureRect(sf::IntRect(0,4*32,32,32));
 	this->sSpr.setTexture(this->sTex);
 	this->sSpr.setScale(+2,2);
+	this->attackToUse = rand() % 3;
 }
 
 void Enemy::update(float dt){
@@ -75,12 +76,18 @@ void Enemy::update(float dt){
 				vel -= sf::Vector2f(+speed,0.);
 		}
 		// We are in attacking range
-		this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD-0.3, facingLeft, false)));
-		AttackStab *newstab = ((AttackStab*) this->aliveAttacks.back().get());
+		if (attackToUse == 0) {
+			this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackStab(10, STAB_CD-0.3, facingLeft, false)));
+		} else if (attackToUse == 1) {
+			this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackSlash(10, STAB_CD-0.3, facingLeft, false)));
+		} else {
+			this->aliveAttacks.push_back(unique_ptr<Attack>(new AttackSwipe(10, STAB_CD-0.3, facingLeft, false)));
+		}
+		Attack *newstab = this->aliveAttacks.back().get();
 		//newstab->pos = this->pos + (this->facingLeft ? sf::Vector2f(35,-4) : sf::Vector2f(-4,-4));
 		newstab->tag = "attack";
 		newstab->parent = this;
-		newstab->body = sf::Rect<float> (0,200,64,64);
+		newstab->body = sf::Rect<float> (0,200,64,50);
 		newstab->setSprite("./data/images/attacksheet.png");
 		gworld->bodies.push_back(newstab);
 		this->attackCd = STAB_CD;
