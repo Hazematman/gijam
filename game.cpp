@@ -7,6 +7,7 @@ Floor f;
 
 sf::Texture menuTex;
 sf::Sprite menuSpr;
+sf::SoundBuffer stabBuf;
 
 enum State {
 	MENU,
@@ -17,6 +18,7 @@ State state = MENU;
 
 bool Game::init(){
 	screen.create(sf::VideoMode(800,600), "Game");
+	stabBuf.loadFromFile("./data/sounds/sword_sound.wav");
 	f.init(600,300);
 	f.pos = sf::Vector2f(100,400);
 	world.bodies.push_back(&f);
