@@ -82,7 +82,7 @@ void Player::update(float dt){
 
 	// Vertical Movement
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && this->jumpPowerLeft > 0) {
-		vel += sf::Vector2f(0.,-GRAVITY*this->jumpPowerLeft/MAX_JUMP*dt*40);
+		vel += sf::Vector2f(0.,-GRAVITY*this->jumpPowerLeft/MAX_JUMP*dt*13);
 		this->jumpPowerLeft -= dt*10;
 	} else {
 		this->jumpPowerLeft = 0;
@@ -94,7 +94,7 @@ void Player::update(float dt){
 			continue;
 		}
 		// Jump onto people, pushing them away
-		if (collidedEnt->moves && collidedEnt->pos.y+collidedEnt->body.height > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
+		if (collidedEnt->moves && collidedEnt->pos.y > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
 			collidedEnt->invulnWindow = INVULN_WINDOW;
 			collidedEnt->vel.x = (pos.x < collidedEnt->pos.x ? 250 : -250);
 			cout << "PlayerJump" << collidedEnt->vel.x << endl;
@@ -208,6 +208,6 @@ bool Player::onHit(int damage, bool facingLeft){
 			thisAttack->dead = true;
 		}
 	}*/
-	vel.x += (facingLeft ? -70 : 70);
+	vel.x += (facingLeft ? -150 : 150);
 	return true;
 }
