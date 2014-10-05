@@ -78,8 +78,8 @@ bool Game::init(){
 	p2.pos = sf::Vector2f(800-64,600-64);
 	p3.init();
 	p3.pos = sf::Vector2f(800-128, 600-64);
-	addPlatform(330,290);
-	addPlatform(450,310);
+	addPlatform(310,290);
+	addPlatform(470,310);
 	return true;
 }
 
