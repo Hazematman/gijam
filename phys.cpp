@@ -5,6 +5,7 @@ RigidBody::RigidBody(float x, float y, float dx, float dy){
 	this->body = sf::Rect<float>(x, y, dx, dy);
 	this->pos = sf::Vector2f(x,y);
 	this->vel = sf::Vector2f(0,0);
+	this->invulnWindow = 0;
 	moves = true;
 }
 
@@ -12,6 +13,7 @@ RigidBody::RigidBody(){
 	this->body = sf::Rect<float>(0, 0, 0, 0);
 	this->pos = sf::Vector2f(0,0);
 	this->vel = sf::Vector2f(0,0);
+	this->invulnWindow = 0;
 	moves = true;
 }
 
@@ -41,7 +43,8 @@ void PhysWorld::update(float dt){
 		b1->collided.clear();
 		if(b1->moves){
 			b1->vel += gravity*dt;
-			b1->vel.x *= DRAG*(1-dt);
+			if (b1->invulnWindow <= 0 || b1->tag == "player")
+				b1->vel.x *= DRAG*(1-dt);
 			b1->pos += b1->vel*dt;
 			b1->body.left = b1->pos.x;
 			b1->body.top = b1->pos.y;
@@ -51,29 +54,29 @@ void PhysWorld::update(float dt){
 				continue;
 			}
 			if(b1 != b2 && b1->body.intersects(b2->body)){
-				if (b1->tag == "attack") {
-					cout << b2->tag << endl;
-				}
 				if (b1->tag == b2->tag) {
 					continue;
 				}
 				b1->collided.push_back(b2);
-				b1->pos += b1->vel*-dt;
-				b1->body.left = b1->pos.x;
-				b1->body.top = b1->pos.y;
-				sf::Rect<float> x = b1->body;
-				sf::Rect<float> y = b1->body;
-				x.left += b1->vel.x*dt;
-				y.top += b1->vel.y*dt;
-			   	if(x.intersects(b2->body)){
-					b1->vel.x = 0;
-				}	
-				if(y.intersects(b2->body)){
-					b1->vel.y = 0;
+				if ((b1->invulnWindow <= 0 && b2->invulnWindow <= 0) || b2->tag == "platform") {
+					b1->pos += b1->vel*-dt;
+					b1->body.left = b1->pos.x;
+					b1->body.top = b1->pos.y;
+					sf::Rect<float> x = b1->body;
+					sf::Rect<float> y = b1->body;
+					x.left += b1->vel.x*dt;
+					y.top += b1->vel.y*dt;
+				   	if(x.intersects(b2->body)){
+						//cout << b2->tag << endl;
+						b1->vel.x = 0;
+					}	
+					if(y.intersects(b2->body)){
+						b1->vel.y = 0;
+					}
+					b1->pos += b1->vel*dt;
+					b1->body.left = b1->pos.x;
+					b1->body.top = b1->pos.y;
 				}
-				b1->pos += b1->vel*dt;
-				b1->body.left = b1->pos.x;
-				b1->body.top = b1->pos.y;
 			}
 		}
 	}

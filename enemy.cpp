@@ -31,7 +31,7 @@ Enemy::Enemy(){
 
 void Enemy::update(float dt){
 	// Try to move towards the player, if we are too far
-	if (abs((gplayer->pos.x+gplayer->body.width/2) - (pos.x+body.width/2)) >= 80) {
+	if (abs((gplayer->pos.x+gplayer->body.width/2) - (pos.x+body.width/2)) >= 80 && invulnWindow <= 0) {
 		if (gplayer->pos.x < this->pos.x) {
 			isMovingLeft = true;
 			currentAnim = WALK;
@@ -65,12 +65,12 @@ void Enemy::update(float dt){
 		// Cancel current movement
 		if (isMovingLeft) {
 			isMovingLeft = false;
-			if(vel.x != 0)
+			if(vel.x != 0 && invulnWindow <= 0)
 				vel -= sf::Vector2f(-speed,0.);
 		}
 		if (isMovingRight) {
 			isMovingRight = false;
-			if(vel.x != 0)
+			if(vel.x != 0 && invulnWindow <= 0)
 				vel -= sf::Vector2f(+speed,0.);
 		}
 		// We are in attacking range
@@ -89,20 +89,23 @@ void Enemy::update(float dt){
 		Entity* collidedEnt = (Entity*) collided.at(i);
 		if (collidedEnt->tag == "platform") {
 			this->jumpPowerLeft = MAX_JUMP;
-			break;
+			continue;
 		}
 		// Jump onto people, pushing them away
-		if (collidedEnt->moves && collidedEnt->pos.y > pos.y && collidedEnt->invulnWindow <= 0) {
+		if (collidedEnt->moves && collidedEnt->pos.y+collidedEnt->body.height > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
 			collidedEnt->invulnWindow = INVULN_WINDOW;
-			collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? 50 : -50);
-			cout << "EnemyJump" << endl;
+			collidedEnt->vel.x = (pos.x < collidedEnt->pos.x ? 20 : -20);
+			cout << "EnemyJump" << vel.x << endl;
+		}
+		if (invulnWindow-dt <= 0) {
+			invulnWindow += dt;
 		}
 	}
 	invulnWindow -= dt;
 
 	for (int i = 0; i < this->aliveAttacks.size(); i++) {
 		Attack *thisAttack = aliveAttacks.at(i).get();
-		if (thisAttack->dead) {
+		if (thisAttack->dead || invulnWindow > 0) {
 			gworld->removeBody(thisAttack);
 			this->aliveAttacks.erase(this->aliveAttacks.begin() + i);
 			i--;
@@ -182,7 +185,6 @@ bool Enemy::onHit(int damage, bool facingLeft){
 		gworld->removeBody(thisAttack);
 	}
 	gworld->removeBody(this);*/
-	cout << "IM HIT" << endl;
 	vel.x += (facingLeft ? -70 : 70);
 	return true;
 };

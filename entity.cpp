@@ -3,7 +3,6 @@ using namespace std;
 
 Entity::Entity(){
 	//this->rb = RigidBody(0,0,0,0);
-	this->invulnWindow = 0;
 	this->dead = false;
 }
 

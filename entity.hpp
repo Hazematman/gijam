@@ -2,13 +2,12 @@
 #define ENTITY_HPP
 #include "phys.hpp"
 
-#define INVULN_WINDOW 1
+#define INVULN_WINDOW 0.5
 
 class Entity : public RigidBody {
 	public:
 		sf::Sprite sprite;
 		sf::Texture texture;
-		float invulnWindow;
 		Entity();
 		void setSprite(std::string filename);
 		virtual void render(sf::RenderWindow &screen){};

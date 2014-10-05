@@ -82,13 +82,16 @@ void Player::update(float dt){
 		Entity* collidedEnt = (Entity*) collided.at(i);
 		if (collidedEnt->tag == "platform" && vel.y == 0) {
 			this->jumpPowerLeft = MAX_JUMP;
-			break;
+			continue;
 		}
 		// Jump onto people, pushing them away
-		if (vel.y > 0 && collidedEnt->moves && collidedEnt->pos.y+collidedEnt->body.height > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
+		if (collidedEnt->moves && collidedEnt->pos.y+collidedEnt->body.height > pos.y+body.height && collidedEnt->invulnWindow <= 0) {
 			collidedEnt->invulnWindow = INVULN_WINDOW;
-			collidedEnt->pos.x += (pos.x < collidedEnt->pos.x ? 50 : -50);
-			cout << "PlayerJump" << endl;
+			collidedEnt->vel.x = (pos.x < collidedEnt->pos.x ? 250 : -250);
+			cout << "PlayerJump" << collidedEnt->vel.x << endl;
+		}
+		if (invulnWindow-dt <= 0) {
+			invulnWindow += dt;
 		}
 	}
 	invulnWindow -= dt;
@@ -177,7 +180,6 @@ bool Player::onHit(int damage, bool facingLeft){
 			thisAttack->dead = true;
 		}
 	}*/
-	cout << "Playerhit" << endl;
 	vel.x += (facingLeft ? -70 : 70);
 	return true;
 }
