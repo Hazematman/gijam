@@ -91,6 +91,24 @@ void Game::update(float dt){
 				addEnemy(-100, 0);
 			}
 		}
+		if (gplayer->dead) {
+			state = MENU;
+			gplayer->Init();
+			world.bodies.push_back(gplayer);
+			for (int i = 0; i < enemies.size(); ) {	// Empty the enemies
+				Enemy* enemy = enemies.at(i).get();
+				enemy->dead = true;
+				for (int i = 0; i < enemy->aliveAttacks.size(); i++) {
+					Attack* thisAttack = enemy->aliveAttacks.at(i).get();
+					thisAttack->dead = true;
+					gworld->removeBody(thisAttack);
+				}
+				gworld->removeBody(enemy);
+				enemies.erase(enemies.begin());
+			}
+			enemiesToSpawn = 1;
+			timeUntilNextSpawn = 0;
+		}
 	}
 }
 
