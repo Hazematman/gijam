@@ -7,6 +7,8 @@
 #include "player.hpp"
 #include "attack.hpp"
 #include "attack_stab.hpp"
+#include "attack_slash.hpp"
+#include "attack_swipe.hpp"
 #include <cmath>
 #include <memory>
 #include <cstdlib>
@@ -22,6 +24,7 @@ public:
 	float attackCd;
 	float currentFrame;
 	int currentAnim;
+	int attackToUse;
 	std::vector<std::unique_ptr<Attack>> aliveAttacks;
 	Enemy();
 	void render(sf::RenderWindow &screen);

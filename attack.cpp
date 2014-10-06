@@ -39,7 +39,6 @@ void Attack::update(float dt) {
 				if (fromPlayer == collidedAtk->fromPlayer) {
 					continue;
 				}
-				cout << "SWINGG" << endl;
 				// Perform the attack triangle!!
 				if (attackType == STAB && collidedAtk->attackType == SLASH) {
 					collidedAtk->parent->onHit(damage, facingLeft);
