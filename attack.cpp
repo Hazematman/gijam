@@ -42,13 +42,10 @@ void Attack::update(float dt) {
 				// Perform the attack triangle!!
 				if (attackType == STAB && collidedAtk->attackType == SLASH) {
 					collidedAtk->parent->onHit(damage, facingLeft);
-					cout << fromPlayer << endl;
 				} else if (attackType == SLASH && collidedAtk->attackType == SWIPE) {
 					collidedAtk->parent->onHit(damage, facingLeft);
-					cout << fromPlayer << endl;
 				} else if (attackType == SWIPE && collidedAtk->attackType == STAB) {
 					collidedAtk->parent->onHit(damage, facingLeft);
-					cout << fromPlayer << endl;
 				}
 			}
 			//if (facingLeft) cout << collidedEnt->tag << endl;
